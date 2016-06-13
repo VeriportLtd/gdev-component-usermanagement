@@ -33,7 +33,7 @@ class UserDetails extends Entity {
     public static function fields() {
         return [
             "UserDetailId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
-            "UserId" => ['type' => 'integer', 'index' => true, 'required' => true, 'unique' => true],
+            "UserId" => ['type' => 'integer', 'required' => true, 'unique' => true],
             "FirstName" => ['type' => 'string', 'required' => true],
             "LastName" => ['type' => 'string', 'required' => true],
             "Gender" => ['type' => 'integer', 'required' => true],
