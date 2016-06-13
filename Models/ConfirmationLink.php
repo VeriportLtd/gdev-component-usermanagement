@@ -33,7 +33,7 @@ class ConfirmationLink extends Entity
 			"ConfirmationLinkId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
 			"UserId" => ['type' => 'integer', 'index' => true, 'required' => true],
 			"ExpirationDate" => ['type' => 'datetime', 'required' => true],
-			"ConfirmationLinkGuid" => ['type' => 'string', 'required' => true],
+			"Token" => ['type' => 'string', 'required' => true, 'unique' => true],
 		];
 	}
 

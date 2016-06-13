@@ -17,6 +17,8 @@ use Spot\MapperInterface;
  * @property string Email
  * @property string Password
  * @property UserDetails Details
+ * @property Role[] Roles
+ * @property UserStatus[] Statuses
  */
 class User extends Entity {
 

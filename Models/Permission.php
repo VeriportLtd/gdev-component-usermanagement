@@ -19,6 +19,8 @@ use Spot\MapperInterface;
  * @property integer PermissionId
  * @property string Caption
  * @property string Description
+ * @property PermissionDescription[] PermissionDescriptions
+ * @property RolePermission[] RolePermissions
  */
 class Permission extends Entity
 {

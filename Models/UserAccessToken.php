@@ -30,7 +30,7 @@ class UserAccessToken extends Entity{
 	public static function fields() {
 		return [
 			"UserAccessTokenId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
-			"Token" => ['type' => 'string', 'required' => true],
+			"Token" => ['type' => 'string', 'required' => true, 'unique' => true],
 			"UserId" => ['type' => 'integer', 'required' => true],
 			"StartDate" => ['type' => 'datetime', 'required' => true],
 			"EndDate" => ['type' => 'datetime', 'required' => true],
