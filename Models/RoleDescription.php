@@ -11,6 +11,7 @@ namespace Gdev\UserManagement\Models;
 use Spot\Entity;
 use Spot\EntityInterface;
 use Spot\MapperInterface;
+
 /**
  * Class RoleDescription
  * @package Models
@@ -19,27 +20,24 @@ use Spot\MapperInterface;
  * @property integer RoleId
  * @property string Name
  * @property string Description
- * @property integer LanguageId
  */
-class RoleDescription extends Entity
-{
+class RoleDescription extends Entity {
 
-	// Database Mapping
-	protected static $table = "role_descriptions";
+    // Database Mapping
+    protected static $table = "role_descriptions";
 
-	public static function fields() {
-		return [
-			"RoleDescriptionId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
-			"RoleId" => ['type' => 'integer', 'required' => true],
-			"Name" => ['type' => 'string', 'required' => true],
-			"Description" => ['type' => 'string', 'required' => true],
-			"LanguageId" => ['type' => 'integer', 'required' => true],
-		];
-	}
+    public static function fields() {
+        return [
+            "RoleDescriptionId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
+            "RoleId" => ['type' => 'integer', 'required' => true],
+            "Name" => ['type' => 'string', 'required' => true],
+            "Description" => ['type' => 'string', 'required' => true]
+        ];
+    }
 
-	public static function relations(MapperInterface $mapper, EntityInterface $entity) {
-		return [
-			'Role' => $mapper->belongsTo($entity, 'Gdev\UserManagement\Models\Role', 'RoleId')
-		];
-	}
+    public static function relations(MapperInterface $mapper, EntityInterface $entity) {
+        return [
+            'Role' => $mapper->belongsTo($entity, 'Gdev\UserManagement\Models\Role', 'RoleId')
+        ];
+    }
 }

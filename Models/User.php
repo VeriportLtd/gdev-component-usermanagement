@@ -16,33 +16,31 @@ use Spot\MapperInterface;
  * @property DateTime RegistrationDate
  * @property string Email
  * @property string Password
+ * @property UserDetails Details
  */
-class User extends Entity
-{
+class User extends Entity {
 
-	// Database Mapping
-	protected static $table = "users";
+    // Database Mapping
+    protected static $table = "users";
 
-	public static function fields()
-	{
-		return [
-			"UserId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
-			"UserName" => ['type' => 'string', 'required' => true, 'unique' => 'user_email'],
-			"RegistrationDate" => ['type' => 'datetime', 'required' => true],
-			"Email" => ['type' => 'string', 'required' => true, 'unique' => 'user_email'],
-			"Password" => ['type' => 'string', 'required' => true],
-		];
-	}
+    public static function fields() {
+        return [
+            "UserId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
+            "UserName" => ['type' => 'string', 'required' => true, 'unique' => true],
+            "RegistrationDate" => ['type' => 'datetime', 'required' => true],
+            "Email" => ['type' => 'string', 'required' => true, 'unique' => true],
+            "Password" => ['type' => 'string', 'required' => true],
+        ];
+    }
 
-	public static function relations(MapperInterface $mapper, EntityInterface $entity)
-	{
-		return [
-			'UserStatus' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\UserStatus', 'UserId'),
-			'UserRole' => $mapper->hasManyThrough($entity, 'Gdev\UserManagement\Models\Role', 'Gdev\UserManagement\Models\UserRole', 'RoleId', 'UserId'),
-			'UserDetail' => $mapper->hasOne($entity, 'Gdev\UserManagement\Models\UserDetail', 'UserId'),
-			'ConfirmationLink' => $mapper->hasOne($entity, 'Gdev\UserManagement\Models\ConfirmationLink', 'UserId'),
-			'PasswordResetLink' => $mapper->hasOne($entity, 'Gdev\UserManagement\Models\PasswordResetLink', 'UserId'),
-			'UserAccessToken' => $mapper->hasOne($entity, 'Gdev\UserManagement\Models\UserAccessToken', 'UserId'),
-		];
-	}
+    public static function relations(MapperInterface $mapper, EntityInterface $entity) {
+        return [
+            'Statuses' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\UserStatus', 'UserId'),
+            'Roles' => $mapper->hasManyThrough($entity, 'Gdev\UserManagement\Models\Role', 'Gdev\UserManagement\Models\UserRole', 'RoleId', 'UserId'),
+            'Details' => $mapper->hasOne($entity, 'Gdev\UserManagement\Models\UserDetails', 'UserId'),
+            'ConfirmationLinks' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\ConfirmationLink', 'UserId'),
+            'PasswordResetLinks' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\PasswordResetLink', 'UserId'),
+            'UserAccessTokens' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\UserAccessToken', 'UserId'),
+        ];
+    }
 }

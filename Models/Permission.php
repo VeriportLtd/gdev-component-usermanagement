@@ -28,7 +28,7 @@ class Permission extends Entity
 	public static function fields()
 	{
 		return [
-			"PermissionId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
+			"PermissionId" => ['type' => 'integer', 'primary' => true],
 			"Caption" => ['type' => 'string', 'required' => true],
 			"Description" => ['type' => 'string', 'required' => true]
 		];
@@ -37,9 +37,8 @@ class Permission extends Entity
 	public static function relations(MapperInterface $mapper, EntityInterface $entity)
 	{
 		return [
-			'PermissionDescription' => $mapper->hasOne($entity, 'Gdev\UserManagement\Models\PermissionDescription', 'PermissionId'),
-			'RolePermission' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\Permission', 'PermissionId'),
-
+			'PermissionDescriptions' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\PermissionDescription', 'PermissionId'),
+			'RolePermissions' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\Permission', 'PermissionId'),
 		];
 	}
 }
