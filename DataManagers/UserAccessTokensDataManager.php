@@ -20,4 +20,8 @@ class UserAccessTokensDataManager {
 		return UserAccessTokensRepository::getInstance()->where(['UserId' => $userId, 'EndDate' => $endDate])->first();
 	}
 
+	public static function GetToken($token) {
+		return UserAccessTokensRepository::getInstance()->where(['Token' => $token])->first();
+	}
+
 }

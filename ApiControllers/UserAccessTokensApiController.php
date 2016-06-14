@@ -17,6 +17,11 @@ class UserAccessTokensApiController {
 		return UserAccessTokensDataManager::CreateUserAccessToken($model);
 	}
 
+	public static function GetToken($token) {
+
+		return UserAccessTokensDataManager::GetToken($token);
+	}
+
 	public static function RemoveUserAccessToken($userId) {
 		return UserAccessTokensDataManager::RemoveUserAccessToken($userId);
 	}
