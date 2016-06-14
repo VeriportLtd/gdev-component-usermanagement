@@ -8,6 +8,7 @@
 
 namespace Gdev\UserManagement\ApiControllers;
 
+use Business\Security\Users;
 use Gdev\UserManagement\DataManagers\UsersDataManager;
 
 class UsersApiController {
@@ -35,6 +36,22 @@ class UsersApiController {
 
 	public static function DeleteUser($userId){
 		return UsersDataManager::DeleteUser($userId);
+	}
+
+	public static function GetUserByEmail($email) {
+		return UsersDataManager::GetUserByEmail($email);
+	}
+
+	public static function Login($email = null, $password = null, $token = null) {
+		if ($token == null) {
+			return Users::Login($email, $password);
+		} else {
+			return Users::LoginWithToken($token);
+		}
+	}
+
+	public static function Logout($userId) {
+		return UsersDataManager::RemoveUserAccessToken($userId);
 	}
 
 }

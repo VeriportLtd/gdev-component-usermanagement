@@ -16,4 +16,8 @@ class UserAccessTokensDataManager {
 		return UserAccessTokensRepository::getInstance()->where(['UserId' => $userId])->delete();
 	}
 
+	public static function GetActiveToken($userId, $endDate = null) {
+		return UserAccessTokensRepository::getInstance()->where(['UserId' => $userId, 'EndDate' => $endDate])->first();
+	}
+
 }

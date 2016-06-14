@@ -19,5 +19,9 @@ class UserRolesDataManager {
 		return UserRolesRepository::getInstance()->where(['Email' => $email])->first();
 	}
 
+	public static function GetUserRoles($userId) {
+		return UserRolesRepository::getInstance()->where(['UserId' => $userId])->all();
+	}
+
 
 }
