@@ -24,6 +24,9 @@ class UsersDataManager {
 		return UsersRepository::getInstance()->where(['Username' => $userName])->first();
 	}
 
+	public static function GetUserByEmail($email) {
+		return UsersRepository::getInstance()->where(['Email' => $email])->first();
+	}
 
 	public static function InsertUser($model) {
 		return UsersRepository::getInstance()->save($model);
