@@ -50,8 +50,5 @@ class UsersApiController {
 		}
 	}
 
-	public static function Logout($userId) {
-		return UsersDataManager::RemoveUserAccessToken($userId);
-	}
 
 }
