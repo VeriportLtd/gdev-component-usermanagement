@@ -20,8 +20,8 @@ class UserRolesApiController {
 		return UserRolesDataManager::UpdateUserRole($userRole);
 	}
 
-	public static function GetUserByEmail($email) {
-		return UserRolesDataManager::GetUserByEmail($email);
+	public static function GetUserRoles($userId) {
+		return UserRolesDataManager::GetUserRoles($userId);
 	}
 
 }
