@@ -19,7 +19,6 @@ use Spot\MapperInterface;
  * @property integer RoleId
  * @property integer Protected
  * @property integer Active
- * @property RoleDescription[] RoleDescriptions
  * @property Permission[] Permissions
  * @property UserRole[] UserRoles
  */
@@ -39,7 +38,6 @@ class Role extends Entity {
 
     public static function relations(MapperInterface $mapper, EntityInterface $entity) {
         return [
-            'RoleDescriptions' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\RoleDescription', 'RoleId'),
             'Permissions' => $mapper->hasManyThrough($entity, 'Gdev\UserManagement\Models\Permission', 'Gdev\UserManagement\Models\RolePermission', 'PermissionId', 'RoleId'),
             'UserRoles' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\UserRole', 'UserId')
         ];
