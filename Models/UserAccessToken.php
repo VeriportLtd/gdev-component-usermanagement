@@ -33,7 +33,7 @@ class UserAccessToken extends Entity{
 			"Token" => ['type' => 'string', 'required' => true, 'unique' => true],
 			"UserId" => ['type' => 'integer', 'required' => true],
 			"StartDate" => ['type' => 'datetime', 'required' => true],
-			"EndDate" => ['type' => 'datetime', 'required' => true],
+			"EndDate" => ['type' => 'datetime'],
 		];
 	}
 

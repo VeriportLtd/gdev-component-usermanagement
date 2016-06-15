@@ -36,8 +36,8 @@ class UserDetails extends Entity {
             "UserId" => ['type' => 'integer', 'required' => true, 'unique' => true],
             "FirstName" => ['type' => 'string', 'required' => true],
             "LastName" => ['type' => 'string', 'required' => true],
-            "Gender" => ['type' => 'integer', 'required' => true],
-            "DateOfBirth" => ['type' => 'datetime', 'required' => true],
+            "Gender" => ['type' => 'integer'],
+            "DateOfBirth" => ['type' => 'datetime'],
             "Picture" => ['type' => 'string'],
         ];
     }

@@ -31,6 +31,7 @@ class Role extends Entity {
     public static function fields() {
         return [
             "RoleId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
+            "Name" => ['type' => 'string', 'required' => true],
             "Protected" => ['type' => 'integer', 'required' => true],
             "Active" => ['type' => 'integer', 'required' => true]
         ];
