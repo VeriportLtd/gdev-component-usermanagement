@@ -12,8 +12,8 @@ use Gdev\UserManagement\DataManagers\RolesDataManager;
 
 class RolesApiController {
 
-	public static function GetRoles($userId) {
-		return RolesDataManager::GetRoles($userId);
+	public static function GetRoles() {
+		return RolesDataManager::GetRoles();
 	}
 
 }
