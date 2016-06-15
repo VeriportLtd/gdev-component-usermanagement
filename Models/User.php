@@ -16,7 +16,7 @@ use Spot\MapperInterface;
  * @property DateTime RegistrationDate
  * @property string Email
  * @property string Password
- * @property UserDetails Details
+ * @property UserDetail Details
  * @property Role[] Roles
  * @property UserStatus[] Statuses
  */
