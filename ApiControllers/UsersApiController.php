@@ -9,7 +9,9 @@
 namespace Gdev\UserManagement\ApiControllers;
 
 use Business\Security\Users;
+use Gdev\UserManagement\DataManagers\UserDetailsDataManager;
 use Gdev\UserManagement\DataManagers\UsersDataManager;
+use Gdev\UserManagement\Models\UserDetail;
 
 class UsersApiController {
 
@@ -25,9 +27,12 @@ class UsersApiController {
 		return UsersDataManager::GetUserByUserName($userName);
 	}
 
-
 	public static function InsertUser($model) {
 		return UsersDataManager::InsertUser($model);
+	}
+
+	public static function InsertUserDetails($model) {
+		return UserDetailsDataManager::InsertUserDetails($model);
 	}
 
 	public static function UpdateUser($model) {

@@ -14,7 +14,7 @@ use Spot\EntityInterface;
 use Spot\MapperInterface;
 
 /**
- * Class UserDetails
+ * Class UserDetail
  * @package Models
  *
  * @property integer UserDetailId
@@ -25,7 +25,7 @@ use Spot\MapperInterface;
  * @property DateTime DateOfBirth
  * @property string Picture
  */
-class UserDetails extends Entity {
+class UserDetail extends Entity {
 
     // Database Mapping
     protected static $table = "user_details";
