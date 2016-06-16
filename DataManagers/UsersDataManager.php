@@ -13,11 +13,11 @@ use Gdev\UserManagement\Repositories\UsersRepository;
 class UsersDataManager {
 
 	public static function GetUsers() {
-		return UsersRepository::getInstance()->all();
+		return UsersRepository::getInstance()->all()->with(["Roles", "Details"]);
 	}
 
 	public static function GetUserById($userId) {
-		return UsersRepository::getInstance()->get($userId)->with(["Roles", "Details"]);
+		return UsersRepository::getInstance()->where(['UserId' => $userId])->with(["Roles", "Details"])->first();
 	}
 
 	public static function GetUserByUserName($userName) {
@@ -36,7 +36,7 @@ class UsersDataManager {
 		return UsersRepository::getInstance()->save($model);
 	}
 
-	public static function DeleteUser($userId){
+	public static function DeleteUser($userId) {
 		return UsersRepository::getInstance()->delete($userId);
 	}
 
