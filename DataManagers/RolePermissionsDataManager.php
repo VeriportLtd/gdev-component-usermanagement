@@ -2,7 +2,6 @@
 
 namespace Gdev\UserManagement\DataManagers;
 
-use Gdev\UserManagement\Models\RolePermission;
 use Gdev\UserManagement\Repositories\RolePermissionsRepository;
 
 class RolePermissionsDataManager {
@@ -23,10 +22,6 @@ class RolePermissionsDataManager {
 		return RolePermissionsRepository::getInstance()->delete($id);
 	}
 
-	/**
-	 * @param $roleId
-	 * @return RolePermission
-	 */
 	public static function GetRolePermissions($roleId) {
 		return RolePermissionsRepository::getInstance()->where(['RoleId' => $roleId])->all();
 	}

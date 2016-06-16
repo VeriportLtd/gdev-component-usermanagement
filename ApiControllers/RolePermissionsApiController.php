@@ -9,6 +9,7 @@
 namespace Gdev\UserManagement\ApiControllers;
 
 use Gdev\UserManagement\DataManagers\RolePermissionsDataManager;
+use Gdev\UserManagement\Models\RolePermission;
 
 class RolePermissionsApiController {
 
@@ -16,6 +17,10 @@ class RolePermissionsApiController {
 		return RolePermissionsDataManager::GetRolesPermissions();
 	}
 
+	/**
+	 * @param $roleId
+	 * @return RolePermission
+	 */
 	public static function GetRolePermissions($roleId) {
 		return RolePermissionsDataManager::GetRolePermissions($roleId);
 	}
