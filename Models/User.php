@@ -16,7 +16,7 @@ use Spot\MapperInterface;
  * @property DateTime RegistrationDate
  * @property string Email
  * @property string Password
- * @property UserDetail Details
+ * @property UserDetails Details
  * @property Role[] Roles
  * @property UserStatus[] Statuses
  */
@@ -39,7 +39,7 @@ class User extends Entity {
         return [
             'Statuses' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\UserStatus', 'UserId'),
             'Roles' => $mapper->hasManyThrough($entity, 'Gdev\UserManagement\Models\Role', 'Gdev\UserManagement\Models\UserRole', 'RoleId', 'UserId'),
-            'Details' => $mapper->hasOne($entity, 'Gdev\UserManagement\Models\UserDetail', 'UserId'),
+            'Details' => $mapper->hasOne($entity, 'Gdev\UserManagement\Models\UserDetails', 'UserId'),
             'ConfirmationLinks' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\ConfirmationLink', 'UserId'),
             'PasswordResetLinks' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\PasswordResetLink', 'UserId'),
             'UserAccessTokens' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\UserAccessToken', 'UserId'),

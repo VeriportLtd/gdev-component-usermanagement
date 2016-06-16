@@ -10,5 +10,5 @@ use Data\Repositories\BaseRepository;
  */
 class UserDetailsRepository extends BaseRepository {
 
-    const Model = 'Gdev\UserManagement\Models\UserDetail';
+    const Model = 'Gdev\UserManagement\Models\UserDetails';
 }

@@ -12,7 +12,7 @@ use Business\Security\Users;
 use Gdev\UserManagement\DataManagers\UserDetailsDataManager;
 use Gdev\UserManagement\DataManagers\UsersDataManager;
 use Gdev\UserManagement\Models\User;
-use Gdev\UserManagement\Models\UserDetail;
+use Gdev\UserManagement\Models\UserDetails;
 
 class UsersApiController {
 
