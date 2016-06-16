@@ -19,6 +19,7 @@ use Spot\MapperInterface;
  * @property integer RoleId
  * @property integer Protected
  * @property integer Active
+ * @property string Name
  * @property Permission[] Permissions
  * @property UserRole[] UserRoles
  */
