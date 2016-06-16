@@ -16,8 +16,8 @@ class RolePermissionsApiController {
 		return RolePermissionsDataManager::GetRolesPermissions();
 	}
 
-	public static function GetRolePermissions($userId) {
-		return RolePermissionsDataManager::GetRolePermissions($userId);
+	public static function GetRolePermissions($roleId) {
+		return RolePermissionsDataManager::GetRolePermissions($roleId);
 	}
 
 	public static function InsertRolesPermission($model) {
