@@ -16,4 +16,21 @@ class RolesApiController {
 		return RolesDataManager::GetRoles();
 	}
 
+	public static function InsertRole($model) {
+		return RolesDataManager::InsertRole($model);
+	}
+
+	public static function UpdatetRole($model) {
+		return RolesDataManager::UpdatetRole($model);
+	}
+
+	public static function DeleteRole($roleId) {
+		return RolesDataManager::DeleteRole($roleId);
+	}
+
+	public static function GetRoleById($roleId) {
+		return RolesDataManager::GetRoleById($roleId);
+	}
+
+
 }
