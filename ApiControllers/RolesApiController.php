@@ -9,6 +9,7 @@
 namespace Gdev\UserManagement\ApiControllers;
 
 use Gdev\UserManagement\DataManagers\RolesDataManager;
+use Gdev\UserManagement\Models\Role;
 
 class RolesApiController {
 
@@ -28,6 +29,10 @@ class RolesApiController {
 		return RolesDataManager::DeleteRole($roleId);
 	}
 
+	/**
+	 * @param $roleId
+	 * @return Role
+	 */
 	public static function GetRoleById($roleId) {
 		return RolesDataManager::GetRoleById($roleId);
 	}
