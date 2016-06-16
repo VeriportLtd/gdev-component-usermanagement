@@ -34,7 +34,7 @@ class RolePermissionsApiController {
 	}
 
 	public static function DeleteRolesPermission($id) {
-		return RolePermissionsDataManager::InsertRolesPermission($id);
+		return RolePermissionsDataManager::DeleteRolesPermission($id);
 	}
 
 }
