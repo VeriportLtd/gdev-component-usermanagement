@@ -23,7 +23,7 @@ class RolePermissionsDataManager {
 	}
 
 	public static function GetRolePermissions($roleId) {
-		return RolePermissionsRepository::getInstance()->where(['RoleId' => $roleId])->all();
+		return RolePermissionsRepository::getInstance()->all()->where(['RoleId' => $roleId]);
 	}
 
 }
