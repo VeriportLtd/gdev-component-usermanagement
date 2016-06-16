@@ -17,15 +17,15 @@ class UsersDataManager {
 	}
 
 	public static function GetUserById($userId) {
-		return UsersRepository::getInstance()->get($userId);
+		return UsersRepository::getInstance()->get($userId)->with(["Roles", "Details"]);
 	}
 
 	public static function GetUserByUserName($userName) {
-		return UsersRepository::getInstance()->where(['Username' => $userName])->first();
+		return UsersRepository::getInstance()->where(['Username' => $userName])->with(["Roles", "Details"])->first();
 	}
 
 	public static function GetUserByEmail($email) {
-		return UsersRepository::getInstance()->where(['Email' => $email])->first();
+		return UsersRepository::getInstance()->where(['Email' => $email])->with(["Roles", "Details"])->first();
 	}
 
 	public static function InsertUser($model) {
