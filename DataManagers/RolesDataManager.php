@@ -7,7 +7,7 @@ use Gdev\UserManagement\Repositories\RolesRepository;
 class RolesDataManager {
 
 	public static function GetRoles() {
-		return RolesRepository::getInstance()->all();
+		return RolesRepository::getInstance()->all()->with(["Permissions", "UserRoles"]);
 	}
 
 	public static function InsertRole($model) {
