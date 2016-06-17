@@ -23,5 +23,9 @@ class UserRolesDataManager {
 		return UserRolesRepository::getInstance()->where(['UserId' => $userId])->all();
 	}
 
+	public static function DeleteUserRoles($userRoleId) {
+		return UserRolesRepository::getInstance()->delete($userRoleId);
+	}
+
 
 }

@@ -24,4 +24,8 @@ class UserRolesApiController {
 		return UserRolesDataManager::GetUserRoles($userId);
 	}
 
+	public static function DeleteUserRoles($userRoleId) {
+		return UserRolesDataManager::DeleteUserRoles($userRoleId);
+	}
+
 }
