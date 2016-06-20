@@ -10,7 +10,7 @@ namespace Gdev\UserManagement\ApiControllers;
 
 use Gdev\UserManagement\DataManagers\UserStatusesDataManager;
 
-class UserRolesApiController {
+class UserStatusesApiController {
 
 	public static function InsertUserStatus($model) {
 		return UserStatusesDataManager::InsertUserStatus($model);
