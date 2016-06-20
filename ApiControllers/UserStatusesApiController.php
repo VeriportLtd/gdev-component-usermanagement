@@ -24,6 +24,10 @@ class UserStatusesApiController {
 		return UserStatusesDataManager::GetUserStatuses($userId);
 	}
 
+	public static function GetCurrentUserStatus($userId) {
+		return UserStatusesDataManager::GetCurrentUserStatus($userId);
+	}
+
 	public static function DeleteUserStatus($userStatusId) {
 		return UserStatusesDataManager::DeleteUserStatus($userStatusId);
 	}

@@ -19,6 +19,10 @@ class UserStatusesDataManager {
 		return UserStatusesRepository::getInstance()->all()->where(['UserId' => $userId])->execute();
 	}
 
+	public static function GetCurrentUserStatus($userId) {
+		return UserStatusesRepository::getInstance()->where(['UserId' => $userId, 'DateTo' => null])->first();
+	}
+
 	public static function DeleteUserStatus($userStatusId) {
 		return UserStatusesRepository::getInstance()->delete(['UserStatusId' => $userStatusId]);
 	}
