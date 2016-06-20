@@ -2,6 +2,7 @@
 
 namespace Gdev\UserManagement\DataManagers;
 
+use Gdev\UserManagement\Models\UserStatus;
 use Gdev\UserManagement\Repositories\UserStatusesRepository;
 
 
@@ -19,6 +20,10 @@ class UserStatusesDataManager {
 		return UserStatusesRepository::getInstance()->all()->where(['UserId' => $userId])->execute();
 	}
 
+	/**
+	 * @param $userId
+	 * @return UserStatus
+	 */
 	public static function GetCurrentUserStatus($userId) {
 		return UserStatusesRepository::getInstance()->where(['UserId' => $userId, 'DateTo' => null])->first();
 	}
