@@ -37,7 +37,7 @@ class UsersDataManager {
 	}
 
 	public static function DeleteUser($userId) {
-		return UsersRepository::getInstance()->delete($userId);
+		return UsersRepository::getInstance()->delete(['UserId' => $userId]);
 	}
 
 }

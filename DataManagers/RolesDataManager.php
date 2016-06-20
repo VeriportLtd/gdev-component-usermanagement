@@ -19,7 +19,7 @@ class RolesDataManager {
 	}
 
 	public static function DeleteRole($roleId) {
-		return RolesRepository::getInstance()->delete($roleId);
+		return RolesRepository::getInstance()->delete(['RoleId' => $roleId]);
 	}
 
 	public static function GetRoleById($roleId) {

@@ -24,7 +24,7 @@ class UserRolesDataManager {
 	}
 
 	public static function DeleteUserRoles($userRoleId) {
-		return UserRolesRepository::getInstance()->delete($userRoleId);
+		return UserRolesRepository::getInstance()->delete(['UserRoleId' => $userRoleId]);
 	}
 
 

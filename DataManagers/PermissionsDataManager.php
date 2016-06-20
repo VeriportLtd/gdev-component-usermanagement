@@ -23,7 +23,7 @@ class PermissionsDataManager {
 	}
 
 	public static function DeletePermission($permissionId) {
-		return PermissionsRepository::getInstance()->delete($permissionId);
+		return PermissionsRepository::getInstance()->delete(['PermissionId' => $permissionId]);
 	}
 
 }

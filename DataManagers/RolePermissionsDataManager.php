@@ -19,7 +19,7 @@ class RolePermissionsDataManager {
 	}
 
 	public static function DeleteRolesPermission($id) {
-		return RolePermissionsRepository::getInstance()->delete($id);
+		return RolePermissionsRepository::getInstance()->delete(['RolePermissionId' => $id]);
 	}
 
 	public static function GetRolePermissions($roleId) {

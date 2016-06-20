@@ -27,7 +27,7 @@ class PasswordResetLinkDataManager {
 	}
 
 	public static function DeleteUserResetPasswordLink($passwordResetLinkId) {
-		return PasswordResetLinksRepository::getInstance()->delete($passwordResetLinkId);
+		return PasswordResetLinksRepository::getInstance()->delete(['PasswordResetLinkId' => $passwordResetLinkId]);
 	}
 
 }
