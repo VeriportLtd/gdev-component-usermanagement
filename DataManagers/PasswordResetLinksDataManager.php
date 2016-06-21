@@ -4,7 +4,7 @@ namespace Gdev\UserManagement\DataManagers;
 
 use Gdev\UserManagement\Repositories\PasswordResetLinksRepository;
 
-class PasswordResetLinkDataManager {
+class PasswordResetLinksDataManager {
 
 	public static function InsertPasswordResetLink($passwordResetLink) {
 		return PasswordResetLinksRepository::getInstance()->save($passwordResetLink);
