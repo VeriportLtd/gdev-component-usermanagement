@@ -22,6 +22,7 @@ use Spot\MapperInterface;
  * @property integer UserId
  * @property DateTime ExpirationDate
  * @property integer Used
+ * @property User User
  */
 class PasswordResetLink extends Entity
 {
