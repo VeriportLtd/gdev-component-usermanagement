@@ -20,7 +20,7 @@ use Spot\MapperInterface;
  * @property integer ConfirmationLinkId
  * @property integer UserId
  * @property DateTime ExpirationDate
- * @property string ConfirmationLinkGuid
+ * @property string Token
  */
 class ConfirmationLink extends Entity
 {
