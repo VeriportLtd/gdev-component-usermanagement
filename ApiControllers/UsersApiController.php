@@ -16,8 +16,16 @@ use Gdev\UserManagement\Models\UserDetails;
 
 class UsersApiController {
 
+	public static function GetActiveUsers() {
+		return UsersDataManager::GetActiveUsers();
+	}
+
 	public static function GetUsers() {
 		return UsersDataManager::GetUsers();
+	}
+
+	public static function GetNotApprovedUsers() {
+		return UsersDataManager::GetNotApprovedUsers();
 	}
 
 	/**

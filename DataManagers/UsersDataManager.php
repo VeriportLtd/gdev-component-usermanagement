@@ -16,6 +16,14 @@ class UsersDataManager {
 		return UsersRepository::getInstance()->all()->with(["Roles", "Details"]);
 	}
 
+	public static function GetActiveUsers() {
+		return UsersRepository::getInstance()->all()->with(["Roles", "Details"])->where(['Active' => 1]);
+	}
+
+	public static function GetNotApprovedUsers() {
+		return UsersRepository::getInstance()->all()->with(["Roles", "Details"])->where(['Approved' => null]);
+	}
+
 	public static function GetUserById($userId) {
 		return UsersRepository::getInstance()->where(['UserId' => $userId])->with(["Roles", "Details"])->first();
 	}
