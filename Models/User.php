@@ -16,6 +16,7 @@ use Spot\MapperInterface;
  * @property DateTime RegistrationDate
  * @property string Email
  * @property string Password
+ * @property integer Active
  * @property UserDetails Details
  * @property Role[] Roles
  * @property UserStatus[] Statuses
@@ -32,6 +33,7 @@ class User extends Entity {
             "RegistrationDate" => ['type' => 'datetime', 'required' => true],
             "Email" => ['type' => 'string', 'required' => true, 'unique' => true],
             "Password" => ['type' => 'string', 'required' => true],
+            "Active" => ['type' => 'integer', 'required' => false],
         ];
     }
 
