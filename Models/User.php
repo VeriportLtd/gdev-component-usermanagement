@@ -17,6 +17,7 @@ use Spot\MapperInterface;
  * @property string Email
  * @property string Password
  * @property integer Active
+ * @property integer Approved
  * @property UserDetails Details
  * @property Role[] Roles
  * @property UserStatus[] Statuses
@@ -34,6 +35,7 @@ class User extends Entity {
             "Email" => ['type' => 'string', 'required' => true, 'unique' => true],
             "Password" => ['type' => 'string', 'required' => true],
             "Active" => ['type' => 'integer', 'required' => false],
+            "Approved" => ['type' => 'integer', 'required' => false],
         ];
     }
 
