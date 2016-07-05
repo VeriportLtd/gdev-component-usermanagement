@@ -8,6 +8,7 @@
 
 namespace Gdev\UserManagement\Models;
 
+use Business\Utilities\Config\Config;
 use DateTime;
 use Spot\Entity;
 use Spot\EntityInterface;
@@ -47,4 +48,22 @@ class UserDetails extends Entity {
             'User' => $mapper->belongsTo($entity, 'Gdev\UserManagement\Models\User', 'UserId'),
         ];
     }
+
+    public function DisplayFullName() {
+        return sprintf("%s %s", $this->FirstName, $this->LastName);
+    }
+
+    public function PictureSource($thumb = null) {
+        $config = Config::GetInstance();
+
+        if (!empty($this->Picture)) {
+            return sprintf("%sMedia/Users/%s%s", $config->cdn->url, empty($this->Picture) ? "" : $thumb . "/", $this->Picture);
+        }
+        return sprintf("%s/Content/user-default.png", $config->cdn->url);
+    }
+
+    public function PicturePath($thumb = null) {
+        return sprintf("%sMedia/Users/%s%s", CDN_PATH, empty($this->Picture) ? "" : $thumb . "/", $this->Picture);
+    }
+
 }
