@@ -28,6 +28,10 @@ class UsersApiController {
 		return UsersDataManager::GetNotApprovedUsers($offset, $limit);
 	}
 
+	public static function GetUsersByCurrentStatus($statusId) {
+		return UsersDataManager::GetUsersByCurrentStatus($statusId);
+	}
+
 	/**
 	 * @param $userId
 	 * @return User
@@ -57,7 +61,7 @@ class UsersApiController {
 		return UsersDataManager::UpdateUser($model);
 	}
 
-	public static function DeleteUser($userId){
+	public static function DeleteUser($userId) {
 		return UsersDataManager::DeleteUser($userId);
 	}
 
@@ -68,7 +72,8 @@ class UsersApiController {
 	public static function Login($email = null, $password = null, $token = null) {
 		if ($token == null) {
 			return Users::Login($email, $password);
-		} else {
+		}
+		else {
 			return Users::LoginWithToken($token);
 		}
 	}
