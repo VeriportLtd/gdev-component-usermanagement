@@ -16,16 +16,16 @@ use Gdev\UserManagement\Models\UserDetails;
 
 class UsersApiController {
 
-	public static function GetActiveUsers() {
-		return UsersDataManager::GetActiveUsers();
+	public static function GetActiveUsers($offset = null, $limit = null) {
+		return UsersDataManager::GetActiveUsers($offset, $limit);
 	}
 
-	public static function GetUsers() {
-		return UsersDataManager::GetUsers();
+	public static function GetUsers($offset = null, $limit = null) {
+		return UsersDataManager::GetUsers($offset, $limit);
 	}
 
-	public static function GetNotApprovedUsers() {
-		return UsersDataManager::GetNotApprovedUsers();
+	public static function GetNotApprovedUsers($offset = null, $limit = null) {
+		return UsersDataManager::GetNotApprovedUsers($offset, $limit);
 	}
 
 	/**

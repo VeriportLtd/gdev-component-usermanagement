@@ -12,16 +12,16 @@ use Gdev\UserManagement\Repositories\UsersRepository;
 
 class UsersDataManager {
 
-	public static function GetUsers() {
-		return UsersRepository::getInstance()->all()->with(["Roles", "Details"]);
+	public static function GetUsers($offset = null, $limit = null) {
+		return UsersRepository::getInstance()->all()->with(["Roles", "Details"])->limit($limit, $offset);
 	}
 
-	public static function GetActiveUsers() {
-		return UsersRepository::getInstance()->all()->with(["Roles", "Details"])->where(['Active' => 1]);
+	public static function GetActiveUsers($offset = null, $limit = null) {
+		return UsersRepository::getInstance()->all()->with(["Roles", "Details"])->where(['Active' => 1])->limit($limit, $offset);
 	}
 
-	public static function GetNotApprovedUsers() {
-		return UsersRepository::getInstance()->all()->with(["Roles", "Details"])->where(['Approved' => null]);
+	public static function GetNotApprovedUsers($offset = null, $limit = null) {
+		return UsersRepository::getInstance()->all()->with(["Roles", "Details"])->where(['Approved' => null])->limit($limit, $offset);
 	}
 
 	public static function GetUserById($userId) {
