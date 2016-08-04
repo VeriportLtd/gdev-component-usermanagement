@@ -43,4 +43,10 @@ class UserAccessToken extends Entity{
 			'User' => $mapper->belongsTo($entity, 'Gdev\UserManagement\Models\User', 'UserId')
 		];
 	}
+
+	// Helpers
+
+	public function IsActive() {
+		return $this->EndDate === null;
+	}
 }
