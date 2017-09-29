@@ -13,7 +13,7 @@ class UserAccessTokensDataManager {
 	}
 
 	public static function RemoveUserAccessToken($userId) {
-		return UserAccessTokensRepository::getInstance()->where(['UserId' => $userId])->delete();
+		return UserAccessTokensRepository::getInstance()->delete(['UserId' => $userId]);
 	}
 
 	public static function GetActiveToken($userId, $endDate = null) {
