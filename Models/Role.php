@@ -22,6 +22,7 @@ use Spot\MapperInterface;
  * @property string Name
  * @property Permission[] Permissions
  * @property UserRole[] UserRoles
+ * @property integer Weight
  */
 class Role extends Entity {
 

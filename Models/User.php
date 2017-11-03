@@ -21,6 +21,9 @@ use Spot\MapperInterface;
  * @property UserDetails Details
  * @property Role[] Roles
  * @property UserStatus[] Statuses
+ * @property Bussiness[] Businesses
+ * @property Thread[] Threads
+ * @property Message[] Messages
  */
 class User extends Entity
 {
