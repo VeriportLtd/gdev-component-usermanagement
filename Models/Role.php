@@ -33,7 +33,8 @@ class Role extends Entity {
             "RoleId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
             "Name" => ['type' => 'string', 'required' => true],
             "Protected" => ['type' => 'integer', 'required' => true],
-            "Active" => ['type' => 'integer', 'required' => true]
+            "Active" => ['type' => 'integer', 'required' => true],
+            "Weight" => ["type" => "integer", "required" => true]
         ];
     }
 
