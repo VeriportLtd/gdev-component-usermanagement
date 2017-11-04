@@ -90,9 +90,14 @@ class UsersApiController
         }
     }
 
-    public static function GetUsersWithLesserRoles($businessId, $roleWeight)
+    public static function GetUsersWithLesserRoles($roleWeight)
     {
-        return UsersDataManager::GetUsersWithLesserRoles($businessId, $roleWeight);
+        return UsersDataManager::GetUsersWithLesserRoles($roleWeight);
+    }
+
+    public static function GetUsersForSelectedBusinesses($businessIds)
+    {
+        return UsersDataManager::GetUsersForSelectedBusinesses($businessIds);
     }
 
 

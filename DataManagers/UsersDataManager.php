@@ -31,7 +31,7 @@ class UsersDataManager
 
     public static function GetUserById($userId)
     {
-        return UsersRepository::getInstance()->where(['UserId' => $userId])->with(["Roles", "Details"])->first();
+        return UsersRepository::getInstance()->where(['UserId' => $userId])->with(["Roles", "Details", "Businesses"])->first();
     }
 
     public static function GetUserByUserName($userName)
@@ -71,18 +71,23 @@ class UsersDataManager
         return $result;
     }
 
-    public static function GetUsersWithLesserRoles($businessId, $roleWeight)
+    public static function GetUsersWithLesserRoles($roleWeight)
     {
-       // $result = [];
-
+        // $result = [];
         $users = UsersRepository::getInstance()
             ->query("
                 SELECT * FROM users u 
-                INNER JOIN user_businesses ub ON ub.UserId = u.UserId AND ub.BusinessId = :businessId 
-                INNER JOIN user_roles ur ON ur.UserId = u.UserId INNER JOIN roles r ON ur.RoleId = r.RoleId AND r.Weight > :roleWeight ", ["businessId" => $businessId, "roleWeight" => $roleWeight])
-            ->execute();
+                INNER JOIN user_roles ur ON ur.UserId = u.UserId INNER JOIN roles r ON ur.RoleId = r.RoleId AND r.Weight >= :roleWeight", ["roleWeight" => $roleWeight]);
         return $users;
 
+    }
+
+    public static function GetUsersForSelectedBusinesses($businessIds)
+    {
+        $businessIds=implode(",", $businessIds);
+        $users= UsersRepository::getInstance()
+            ->query(" SELECT * FROM users u INNER JOIN user_businesses ub ON ub.UserId = u.UserId AND ub.BusinessId IN (:businessIds) ", ["businessIds" => $businessIds]);
+        return $users;
     }
 
 }
