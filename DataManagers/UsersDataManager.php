@@ -86,7 +86,7 @@ class UsersDataManager
     {
         $businessIds=implode(",", $businessIds);
         $users= UsersRepository::getInstance()
-            ->query(" SELECT * FROM users u INNER JOIN user_businesses ub ON ub.UserId = u.UserId AND ub.BusinessId IN (:businessIds) ", ["businessIds" => $businessIds]);
+            ->query(" SELECT * FROM users u INNER JOIN user_businesses ub ON ub.UserId = u.UserId AND ub.BusinessId IN (:businessIds) INNER JOIN user_roles ur ON u.UserId=ur.RoleId ", ["businessIds" => $businessIds]);
         return $users;
     }
 
