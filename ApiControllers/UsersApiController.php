@@ -100,5 +100,14 @@ class UsersApiController
         return UsersDataManager::GetUsersForSelectedBusinesses($businessIds);
     }
 
+    public static function GetUsersByUserId($userIds) {
+        return UsersDataManager::GetUsersByUserId($userIds);
+    }
+
+    public static function GetUsersForSelectedRoles($roleIds)
+    {
+        return UsersDataManager::GetUsersForSelectedRoles($roleIds);
+    }
+
 
 }

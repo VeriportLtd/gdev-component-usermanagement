@@ -2,6 +2,7 @@
 
 namespace Gdev\UserManagement\DataManagers;
 
+use Gdev\UserManagement\Models\User;
 use Gdev\UserManagement\Models\UserAccessToken;
 use Gdev\UserManagement\Repositories\PasswordResetLinksRepository;
 use Gdev\UserManagement\Repositories\RolePermissionsRepository;
@@ -31,7 +32,8 @@ class UsersDataManager
 
     public static function GetUserById($userId)
     {
-        return UsersRepository::getInstance()->where(['UserId' => $userId])->with(["Roles", "Details", "Businesses"])->first();
+
+        return UsersRepository::getInstance()->where(['UserId' => $userId])->with(["Roles", "Details", "Businesses", "Threads"])->first();
     }
 
     public static function GetUserByUserName($userName)
@@ -71,6 +73,12 @@ class UsersDataManager
         return $result;
     }
 
+    public static function GetUsersByUserId($userIds)
+    {
+        $users = implode(',', $userIds);
+        return UsersRepository::getInstance()->all()->whereFieldSql("UserId", "IN ($users)")->with(["Businesses", "Threads", "Roles"])->execute();
+    }
+
     public static function GetUsersWithLesserRoles($roleWeight)
     {
         // $result = [];
@@ -84,9 +92,28 @@ class UsersDataManager
 
     public static function GetUsersForSelectedBusinesses($businessIds)
     {
-        $businessIds=implode(",", $businessIds);
-        $users= UsersRepository::getInstance()
+        $businessIds = implode(",", $businessIds);
+        $users = UsersRepository::getInstance()
             ->query(" SELECT * FROM users u INNER JOIN user_businesses ub ON ub.UserId = u.UserId AND ub.BusinessId IN (:businessIds) INNER JOIN user_roles ur ON u.UserId=ur.RoleId ", ["businessIds" => $businessIds]);
+        $arrayOfUsers = [];
+        foreach ($users as $user) {
+            $arrayOfUsers[] = $user;
+        }
+        return $arrayOfUsers;
+    }
+
+    /**
+     * @param $roleIds
+     * @return array|User[]
+     */
+    public static function GetUsersForSelectedRoles($roleIds)
+    {
+        $roles = implode(',', $roleIds);
+        $userRoles = UserRolesRepository::getInstance()->all()->whereFieldSql("RoleId", "IN ($roles)")->with(["User"])->execute();
+        $users = [];
+        foreach ($userRoles as $userRole) {
+            $users[] = $userRole->User;
+        }
         return $users;
     }
 
