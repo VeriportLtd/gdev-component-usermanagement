@@ -95,17 +95,28 @@ class UsersApiController
         return UsersDataManager::GetUsersWithLesserRoles($roleWeight);
     }
 
-    public static function GetUsersForSelectedBusinesses($businessIds)
+    public static function GetUsersForSelectedBusinesses($businessIds = [])
     {
+        if (empty($businessIds)) {
+            return [];
+        }
         return UsersDataManager::GetUsersForSelectedBusinesses($businessIds);
     }
 
-    public static function GetUsersByUserId($userIds) {
+    public static function GetUsersByUserId($userIds = [])
+    {
+        if (empty($userIds)) {
+            return [];
+        }
+
         return UsersDataManager::GetUsersByUserId($userIds);
     }
 
     public static function GetUsersForSelectedRoles($roleIds)
     {
+        if (empty($roleIds)) {
+            return [];
+        }
         return UsersDataManager::GetUsersForSelectedRoles($roleIds);
     }
 

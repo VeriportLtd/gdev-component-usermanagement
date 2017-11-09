@@ -102,11 +102,12 @@ class UsersDataManager
         }
         return $users;
     }
+
     /**
      * @param $roleIds
      * @return array|User[]
      */
-    public static function GetUsersForSelectedRoles($roleIds)
+    public static function GetUsersForSelectedRoles($roleIds = [])
     {
         $roles = implode(',', $roleIds);
         $userRoles = UserRolesRepository::getInstance()->all()->whereFieldSql("RoleId", "IN ($roles)")->with(["User"])->execute();
