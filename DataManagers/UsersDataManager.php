@@ -2,6 +2,8 @@
 
 namespace Gdev\UserManagement\DataManagers;
 
+use Data\Models\UserBusiness;
+use Data\Repositories\UserBusinessesRepository;
 use Gdev\UserManagement\Models\User;
 use Gdev\UserManagement\Models\UserAccessToken;
 use Gdev\UserManagement\Repositories\PasswordResetLinksRepository;
@@ -93,15 +95,13 @@ class UsersDataManager
     public static function GetUsersForSelectedBusinesses($businessIds)
     {
         $businessIds = implode(",", $businessIds);
-        $users = UsersRepository::getInstance()
-            ->query(" SELECT * FROM users u INNER JOIN user_businesses ub ON ub.UserId = u.UserId AND ub.BusinessId IN (:businessIds) INNER JOIN user_roles ur ON u.UserId=ur.RoleId ", ["businessIds" => $businessIds]);
-        $arrayOfUsers = [];
-        foreach ($users as $user) {
-            $arrayOfUsers[] = $user;
+        $userBusinesses = UserBusinessesRepository::getInstance()->all()->whereFieldSql("BusinessId", "IN ($businessIds)")->with(["User"])->execute();
+        $users = [];
+        foreach ($userBusinesses as $userBusiness) {
+            $users[] = $userBusiness->User;
         }
-        return $arrayOfUsers;
+        return $users;
     }
-
     /**
      * @param $roleIds
      * @return array|User[]
@@ -116,5 +116,4 @@ class UsersDataManager
         }
         return $users;
     }
-
 }
