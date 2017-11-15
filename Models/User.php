@@ -38,7 +38,7 @@ class User extends Entity
         return [
             "UserId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
             "UserName" => ['type' => 'string', 'required' => true, 'unique' => true],
-            "OrganizationId" => ['type' => 'integer', 'required' => true],
+            "OrganizationId" => ['type' => 'integer'],
             "RegistrationDate" => ['type' => 'datetime', 'required' => true],
             "Email" => ['type' => 'string', 'required' => true, 'unique' => true],
             "Password" => ['type' => 'string', 'required' => true],
