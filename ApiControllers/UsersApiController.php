@@ -24,12 +24,12 @@ class UsersApiController
 
     public static function GetUsers($offset = null, $limit = null, $organizationId = null)
     {
-        return UsersDataManager::GetUsers($offset, $limit, $organizationId = null);
+        return UsersDataManager::GetUsers($offset, $limit, $organizationId);
     }
 
     public static function GetNotApprovedUsers($offset = null, $limit = null, $organizationId = null)
     {
-        return UsersDataManager::GetNotApprovedUsers($offset, $limit, $organizationId = null);
+        return UsersDataManager::GetNotApprovedUsers($offset, $limit, $organizationId);
     }
 
     public static function GetUsersByCurrentStatus($statusId)
