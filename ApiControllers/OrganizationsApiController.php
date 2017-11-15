@@ -18,6 +18,10 @@ class OrganizationsApiController
         return OrganizationsDataManager::GetOrganizations();
     }
 
+    public static function GetOrganizationsCount() {
+        return OrganizationsDataManager::GetOrganizationsCount();
+    }
+
     public static function SaveOrganization($model)
     {
         return OrganizationsDataManager::SaveOrganization($model);

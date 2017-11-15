@@ -27,4 +27,9 @@ class OrganizationsDataManager
         return OrganizationsRepository::getInstance()->delete(['OrganizationId' => $organizationId]);
     }
 
+    public static function GetOrganizationsCount()
+    {
+        return OrganizationsRepository::getInstance()->all()->count();
+    }
+
 }
