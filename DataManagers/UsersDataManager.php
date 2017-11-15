@@ -19,7 +19,7 @@ class UsersDataManager
 
     public static function GetUsers($offset = null, $limit = null, $organizationId = null)
     {
-        $wheres = ['Active' => 1];
+        $wheres = [];
         if (!is_null($organizationId)) {
             $wheres['OrganizationId'] = $organizationId;
         }

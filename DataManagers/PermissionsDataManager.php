@@ -18,7 +18,7 @@ class PermissionsDataManager {
 		return PermissionsRepository::getInstance()->save($model);
 	}
 
-	public static function UpdatetPermission($model) {
+	public static function UpdatePermission($model) {
 		return PermissionsRepository::getInstance()->save($model);
 	}
 
