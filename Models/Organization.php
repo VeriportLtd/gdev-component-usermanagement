@@ -17,7 +17,7 @@ class Organization extends Entity
 {
 
     // Database Mapping
-    protected static $table = "users";
+    protected static $table = "organizations";
 
 
     public static function fields()
