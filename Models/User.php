@@ -18,6 +18,7 @@ use Spot\MapperInterface;
  * @property string Password
  * @property integer Active
  * @property integer Approved
+ * @property integer OrganizationId
  * @property UserDetails Details
  * @property Organization Organization
  * @property Role[] Roles
