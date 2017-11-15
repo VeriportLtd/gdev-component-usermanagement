@@ -17,19 +17,31 @@ use Gdev\UserManagement\Repositories\UserStatusesRepository;
 class UsersDataManager
 {
 
-    public static function GetUsers($offset = null, $limit = null)
+    public static function GetUsers($offset = null, $limit = null, $organizationId = null)
     {
-        return UsersRepository::getInstance()->all()->with(["Roles", "Details"])->limit($limit, $offset);
+        $wheres = ['Active' => 1];
+        if (!is_null($organizationId)) {
+            $wheres['OrganizationId'] = $organizationId;
+        }
+        return UsersRepository::getInstance()->all()->with(["Roles", "Details"])->wheres($wheres)->limit($limit, $offset);
     }
 
-    public static function GetActiveUsers($offset = null, $limit = null)
+    public static function GetActiveUsers($offset = null, $limit = null, $organizationId = null)
     {
-        return UsersRepository::getInstance()->all()->with(["Roles", "Details"])->where(['Active' => 1])->limit($limit, $offset);
+        $wheres = ['Active' => 1];
+        if (!is_null($organizationId)) {
+            $wheres['OrganizationId'] = $organizationId;
+        }
+        return UsersRepository::getInstance()->all()->with(["Roles", "Details"])->where($wheres)->limit($limit, $offset);
     }
 
-    public static function GetNotApprovedUsers($offset = null, $limit = null)
+    public static function GetNotApprovedUsers($offset = null, $limit = null, $organizationId = null)
     {
-        return UsersRepository::getInstance()->all()->with(["Roles", "Details"])->where(['Approved' => null])->limit($limit, $offset);
+        $wheres = ['Approved' => null];
+        if (!is_null($organizationId)) {
+            $wheres['OrganizationId'] = $organizationId;
+        }
+        return UsersRepository::getInstance()->all()->with(["Roles", "Details"])->where($wheres)->limit($limit, $offset);
     }
 
     public static function GetUserById($userId)
