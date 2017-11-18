@@ -3,6 +3,7 @@
 namespace Gdev\UserManagement\DataManagers;
 
 use DateTime;
+use Gdev\UserManagement\Models\UserAccessToken;
 use Gdev\UserManagement\Repositories\UserAccessTokensRepository;
 
 class UserAccessTokensDataManager
@@ -32,13 +33,13 @@ class UserAccessTokensDataManager
     public static function VoidUserAccessToken($userId)
     {
         $token = self::GetActiveToken($userId);
-        $token->EndDate = new DateTime();
-        if ($token) {
+        if ($token instanceof UserAccessToken) {
+            $token->EndDate = new DateTime();
             return UserAccessTokensRepository::getInstance()->save($token);
 
-        } else {
-            return null;
         }
+
+        return null;
     }
 
 }
