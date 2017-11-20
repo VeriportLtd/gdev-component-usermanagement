@@ -44,7 +44,7 @@ class UserAccessTokensDataManager
 
     public static function GetLastLoggedInUser()
     {
-        return UserAccessTokensRepository::getInstance()->order(["StartDate" => "DESC"])->first();
+        return UserAccessTokensRepository::getInstance()->all()->order(["StartDate" => "DESC"])->first();
     }
 
 }
