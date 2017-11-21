@@ -20,8 +20,8 @@ class PermissionsApiController {
 		return PermissionsDataManager::InsertPermission($model);
 	}
 
-	public static function UpdatetRole($model) {
-		return PermissionsDataManager::UpdatetPermission($model);
+	public static function UpdateRole($model) {
+		return PermissionsDataManager::UpdatePermission($model);
 	}
 
 	public static function GetPermissionById($permissionId) {

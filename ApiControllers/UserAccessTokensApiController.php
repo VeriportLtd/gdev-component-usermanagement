@@ -26,4 +26,12 @@ class UserAccessTokensApiController {
 		return UserAccessTokensDataManager::RemoveUserAccessToken($userId);
 	}
 
+	public static function VoidUserAccessToken($userId) {
+        return UserAccessTokensDataManager::VoidUserAccessToken($userId);
+    }
+
+    public static function GetLastLoggedInUser() {
+	    return UserAccessTokensDataManager::GetLastLoggedInUser();
+    }
+
 }

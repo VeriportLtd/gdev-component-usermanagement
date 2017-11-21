@@ -13,16 +13,16 @@ use Gdev\UserManagement\Models\Role;
 
 class RolesApiController {
 
-	public static function GetRoles($offset = null, $limit = null) {
-		return RolesDataManager::GetRoles($offset, $limit);
+	public static function GetRoles($offset = null, $limit = null, $organizationId = null) {
+		return RolesDataManager::GetRoles($offset, $limit, $organizationId);
 	}
 
 	public static function InsertRole($model) {
 		return RolesDataManager::InsertRole($model);
 	}
 
-	public static function UpdatetRole($model) {
-		return RolesDataManager::UpdatetRole($model);
+	public static function UpdateRole($model) {
+		return RolesDataManager::UpdateRole($model);
 	}
 
 	public static function DeleteRole($roleId) {

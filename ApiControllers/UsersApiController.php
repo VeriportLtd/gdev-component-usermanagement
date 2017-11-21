@@ -17,19 +17,19 @@ use Gdev\UserManagement\Models\UserDetails;
 class UsersApiController
 {
 
-    public static function GetActiveUsers($offset = null, $limit = null)
+    public static function GetActiveUsers($offset = null, $limit = null, $organizationId = null)
     {
-        return UsersDataManager::GetActiveUsers($offset, $limit);
+        return UsersDataManager::GetActiveUsers($offset, $limit, $organizationId);
     }
 
-    public static function GetUsers($offset = null, $limit = null)
+    public static function GetUsers($offset = null, $limit = null, $organizationId = null)
     {
-        return UsersDataManager::GetUsers($offset, $limit);
+        return UsersDataManager::GetUsers($offset, $limit, $organizationId);
     }
 
-    public static function GetNotApprovedUsers($offset = null, $limit = null)
+    public static function GetNotApprovedUsers($offset = null, $limit = null, $organizationId = null)
     {
-        return UsersDataManager::GetNotApprovedUsers($offset, $limit);
+        return UsersDataManager::GetNotApprovedUsers($offset, $limit, $organizationId);
     }
 
     public static function GetUsersByCurrentStatus($statusId)
