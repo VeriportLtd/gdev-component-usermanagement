@@ -117,4 +117,8 @@ class UsersDataManager
         }
         return $users;
     }
+
+    public static function GetLastLoggedInUser($minWeight){
+        return UsersRepository::GetLastLoggedInUser($minWeight);
+    }
 }

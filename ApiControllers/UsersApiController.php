@@ -119,6 +119,9 @@ class UsersApiController
         }
         return UsersDataManager::GetUsersForSelectedRoles($roleIds);
     }
+    public static function GetLastLoggedInUser($minWeight) {
+        return UsersDataManager::GetLastLoggedInUser($minWeight);
+    }
 
 
 }
