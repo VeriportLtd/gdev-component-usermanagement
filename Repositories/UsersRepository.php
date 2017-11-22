@@ -28,7 +28,9 @@ class UsersRepository extends BaseRepository {
         ORDER BY user_access_tokens.StartDate DESC
         LIMIT 1", $weight);
         $data = $db->query($query);
-
+        if (empty($data[0])) {
+            return null;
+        }
         return new \LastLoggedUserDTO($data[0]->FirstName,$data[0]->LastName,$data[0]->Image,$data[0]->StartDate);
 
     }
