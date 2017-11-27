@@ -17,7 +17,7 @@ class UsersRepository extends BaseRepository
     {
         $db = static::getInstance();
 
-        $roles = RolesRepository::getInstance()->all->where(["Weight" >= $weight]);
+        $roles = RolesRepository::getInstance()->all()->where(["Weight" >= $weight]);
         if (empty($roles)) {
             return null;
         }
