@@ -30,7 +30,7 @@ class UsersRepository extends BaseRepository
          FROM user_access_tokens
         JOIN user_roles on user_roles.UserId = user_access_tokens.UserId
         JOIN user_details on user_roles.UserId = user_details.UserId
-        JOIN roles on user_roles.RoleId = Roles.RoleId
+        JOIN roles on user_roles.RoleId = roles.RoleId
         WHERE roles.Weight >= '%s'
         ORDER BY user_access_tokens.StartDate DESC
         LIMIT 1", $weight);
