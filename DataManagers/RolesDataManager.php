@@ -13,7 +13,7 @@ class RolesDataManager
         if (!is_null($organizationId)) {
             $wheres["OrganizationId"] = $organizationId;
         }
-        if (!is_null[$weight]){
+        if (!is_null($weight)){
             $wheres["Weight >="] = $weight;
         }
         return RolesRepository::getInstance()->all()->with(["Permissions", "UserRoles"])->where($wheres)->limit($limit, $offset);
