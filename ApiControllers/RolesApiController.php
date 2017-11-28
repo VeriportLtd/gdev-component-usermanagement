@@ -13,8 +13,8 @@ use Gdev\UserManagement\Models\Role;
 
 class RolesApiController {
 
-	public static function GetRoles($offset = null, $limit = null, $organizationId = null) {
-		return RolesDataManager::GetRoles($offset, $limit, $organizationId);
+	public static function GetRoles($offset = null, $limit = null, $organizationId = null,$weight = null) {
+		return RolesDataManager::GetRoles($offset, $limit, $organizationId,$weight);
 	}
 
 	public static function InsertRole($model) {

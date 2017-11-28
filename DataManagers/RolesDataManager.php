@@ -7,11 +7,14 @@ use Gdev\UserManagement\Repositories\RolesRepository;
 class RolesDataManager
 {
 
-    public static function GetRoles($offset = null, $limit = null, $organizationId = null)
+    public static function GetRoles($offset = null, $limit = null, $organizationId = null,$weight)
     {
         $wheres = [];
         if (!is_null($organizationId)) {
             $wheres["OrganizationId"] = $organizationId;
+        }
+        if (!is_null[$weight]){
+            $wheres["Weight >="] = $weight;
         }
         return RolesRepository::getInstance()->all()->with(["Permissions", "UserRoles"])->where($wheres)->limit($limit, $offset);
     }
