@@ -47,7 +47,7 @@ class UsersDataManager
     public static function GetUserById($userId)
     {
 
-        return UsersRepository::getInstance()->where(['UserId' => $userId])->with(["Roles", "Details", "Businesses", "Threads"])->first();
+        return UsersRepository::getInstance()->where(['UserId' => $userId])->with(["Roles", "Details", "Threads"])->first();
     }
 
     public static function GetUserByUserName($userName)
@@ -130,7 +130,8 @@ class UsersDataManager
         return $users;
     }
 
-    public static function GetLastLoggedInUser($minWeight){
+    public static function GetLastLoggedInUser($minWeight)
+    {
         return UsersRepository::GetLastLoggedInUser($minWeight);
     }
 }

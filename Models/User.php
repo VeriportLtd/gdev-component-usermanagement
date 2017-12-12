@@ -23,7 +23,6 @@ use Spot\MapperInterface;
  * @property Organization Organization
  * @property Role[] Roles
  * @property UserStatus[] Statuses
- * @property Bussiness[] Businesses
  * @property Thread[] Threads
  * @property Message[] Messages
  */
@@ -58,10 +57,9 @@ class User extends Entity
             'ConfirmationLinks' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\ConfirmationLink', 'UserId'),
             'PasswordResetLinks' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\PasswordResetLink', 'UserId'),
             'UserAccessTokens' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\UserAccessToken', 'UserId'),
-            "Businesses" => $mapper->hasManyThrough($entity, 'Data\Models\Business', 'Data\Models\UserBusiness', 'BusinessId', 'UserId'),
-            "Threads" => $mapper->hasManyThrough($entity, "Data\Models\MessageThread", "Data\Models\UserThread", "ThreadId", "UserId")->order(["UpdatedAt" => "DESC"]),
-            "LastFiveThreads" => $mapper->hasManyThrough($entity, "Data\Models\MessageThread", "Data\Models\UserThread", "ThreadId", "UserId")->order(["UpdatedAt" => "DESC"])->limit(5),
-            "Messages" => $mapper->hasManyThrough($entity, "Data\Models\Message", "Data\Models\UserMessage", "MessageId", "UserId")->order(["CreatedAt" => "DESC"])
+            "Threads" => $mapper->hasManyThrough($entity, "Data\Models\MessageThread", "Data\Models\UserThread", "ThreadId", "UserId"),
+            "LastFiveThreads" => $mapper->hasManyThrough($entity, "Data\Models\MessageThread", "Data\Models\UserThread", "ThreadId", "UserId"),
+            "Messages" => $mapper->hasManyThrough($entity, "Data\Models\Message", "Data\Models\UserMessage", "MessageId", "UserId")
         ];
     }
 }
