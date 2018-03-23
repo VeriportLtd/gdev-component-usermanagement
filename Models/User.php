@@ -16,6 +16,7 @@ use Spot\MapperInterface;
  * @property DateTime RegistrationDate
  * @property string Email
  * @property string Password
+ * @property string FbAccessToken
  * @property integer Active
  * @property integer Approved
  * @property integer OrganizationId
@@ -43,6 +44,7 @@ class User extends Entity
             "RegistrationDate" => ['type' => 'datetime', 'required' => true],
             "Email" => ['type' => 'string', 'required' => true, 'unique' => true],
             "Password" => ['type' => 'string', 'required' => true],
+            "FbAccessToken" => ['type' => 'text', 'required' => false],
             "Active" => ['type' => 'integer', 'required' => false],
             "Approved" => ['type' => 'integer', 'required' => false],
         ];
