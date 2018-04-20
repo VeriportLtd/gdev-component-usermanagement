@@ -23,7 +23,7 @@ class UsersDataManager
         if (!is_null($organizationId)) {
             $wheres['OrganizationId'] = $organizationId;
         }
-        return UsersRepository::getInstance()->all()->with(["Roles", "Details"])->wheres($wheres)->limit($limit, $offset);
+        return UsersRepository::getInstance()->all()->with(["Roles", "Details"])->where($wheres)->limit($limit, $offset);
     }
 
     public static function GetActiveUsers($offset = null, $limit = null, $organizationId = null)
