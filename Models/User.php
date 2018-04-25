@@ -24,7 +24,7 @@ use Spot\MapperInterface;
  * @property Organization Organization
  * @property Role[] Roles
  * @property UserStatus[] Statuses
- * @property Bussiness[] Businesses
+ * @property Business[] Businesses
  * @property Thread[] Threads
  * @property Message[] Messages
  */
@@ -44,7 +44,6 @@ class User extends Entity
             "RegistrationDate" => ['type' => 'datetime', 'required' => true],
             "Email" => ['type' => 'string', 'required' => true, 'unique' => true],
             "Password" => ['type' => 'string', 'required' => true],
-            "FbAccessToken" => ['type' => 'text', 'required' => false],
             "Active" => ['type' => 'integer', 'required' => false],
             "Approved" => ['type' => 'integer', 'required' => false],
         ];
