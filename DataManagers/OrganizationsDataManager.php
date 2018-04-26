@@ -3,6 +3,7 @@
 namespace Gdev\UserManagement\DataManagers;
 
 use Gdev\UserManagement\Repositories\OrganizationsRepository;
+use Gdev\UserManagement\Repositories\OrganizationTranslationsRepository;
 
 class OrganizationsDataManager
 {
@@ -32,4 +33,7 @@ class OrganizationsDataManager
         return OrganizationsRepository::getInstance()->all()->count();
     }
 
+    public static function SaveOrganizationTranslation($translation){
+        return OrganizationTranslationsRepository::getInstance()->save($translation);
+    }
 }
