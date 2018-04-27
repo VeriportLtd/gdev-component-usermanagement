@@ -13,7 +13,9 @@ use Spot\MapperInterface;
  *
  * @property integer OrganizationId
  * @property string Picture
- * @property OrganizationTranslation[] Translations
+ * @property string Name
+ * @property string Description
+ * @property OrganizationLanguage[] OrganizationLanguages
  */
 class Organization extends Entity
 {
@@ -26,15 +28,18 @@ class Organization extends Entity
     {
         return [
             "OrganizationId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
-            "Picture" => ['type' => 'string']
+            "Picture" => ['type' => 'string'],
+            "Name" => ['type' => 'string'],
+            "Description" => ['type' => 'text']
         ];
     }
+
 
     public static function relations(MapperInterface $mapper, EntityInterface $entity)
     {
         return [
-            "Translations" => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\OrganizationTranslation', 'OrganizationId'),
             'Users' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\User', 'UserId'),
+            "OrganizationLanguages" => $mapper->hasMany($entity, 'Data\Models\OrganizationLanguage', 'OrganiaztionId'),
         ];
     }
 

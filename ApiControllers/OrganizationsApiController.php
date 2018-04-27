@@ -46,4 +46,16 @@ class OrganizationsApiController
         return OrganizationsDataManager::SaveOrganizationTranslation($translation);
     }
 
+    public static function SaveOrganizationLanguage($organizationLanguage){
+        return OrganizationsDataManager::SaveOrganizationLanguage($organizationLanguage);
+    }
+
+    public static function GetOrganizationLanguages($organizationId){
+        return OrganizationsDataManager::GetOrganizationLanguages($organizationId);
+    }
+
+    public static function DeleteOrganizationLanguage($organizationLanguageId){
+        return OrganizationsDataManager::DeleteOrganizationLanguage($organizationLanguageId);
+    }
+
 }

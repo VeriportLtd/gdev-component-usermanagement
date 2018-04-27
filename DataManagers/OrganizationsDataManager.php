@@ -2,6 +2,7 @@
 
 namespace Gdev\UserManagement\DataManagers;
 
+use Gdev\UserManagement\Repositories\OrganizationLanguagesRepository;
 use Gdev\UserManagement\Repositories\OrganizationsRepository;
 use Gdev\UserManagement\Repositories\OrganizationTranslationsRepository;
 
@@ -35,5 +36,17 @@ class OrganizationsDataManager
 
     public static function SaveOrganizationTranslation($translation){
         return OrganizationTranslationsRepository::getInstance()->save($translation);
+    }
+
+    public static function SaveOrganizationLanguage($organizationLanguage){
+        return OrganizationLanguagesRepository::getInstance()->save($organizationLanguage);
+    }
+
+    public static function GetOrganizationLanguages($organizationId){
+        return OrganizationLanguagesRepository::getInstance()->all()->where(['OrganizationId' => $organizationId])->execute();
+    }
+
+    public static function DeleteOrganizationLanguage($organizationLanguageId){
+        return OrganizationLanguagesRepository::getInstance()->delete(['OrganizationLanguageId' => $organizationLanguageId]);
     }
 }
