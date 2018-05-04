@@ -15,6 +15,7 @@ use Spot\MapperInterface;
  * @property string Picture
  * @property string Name
  * @property string Description
+ * @property boolen CallBack
  * @property OrganizationLanguage[] OrganizationLanguages
  */
 class Organization extends Entity
@@ -30,7 +31,8 @@ class Organization extends Entity
             "OrganizationId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
             "Picture" => ['type' => 'string'],
             "Name" => ['type' => 'string'],
-            "Description" => ['type' => 'text']
+            "Description" => ['type' => 'text'],
+            "CallBack" => ['type' => 'integer'],
         ];
     }
 
