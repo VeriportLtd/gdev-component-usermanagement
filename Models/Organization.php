@@ -2,7 +2,6 @@
 
 namespace Gdev\UserManagement\Models;
 
-use Business\Utilities\Config\Config;
 use Spot\Entity;
 use Spot\EntityInterface;
 use Spot\MapperInterface;
@@ -60,5 +59,5 @@ class Organization extends Entity
         return sprintf("%sMedia/Organizations/%s%s", CDN_PATH, empty($this->Picture) ? "" : $thumb . "/", $this->Picture);
     }
 
-    
+
 }
