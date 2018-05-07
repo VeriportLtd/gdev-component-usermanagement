@@ -2,6 +2,7 @@
 
 namespace Gdev\UserManagement\Models;
 
+use Business\Utilities\Config\Config;
 use Spot\Entity;
 use Spot\EntityInterface;
 use Spot\MapperInterface;
