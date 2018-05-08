@@ -42,6 +42,8 @@ class Organization extends Entity
         return [
             'Users' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\User', 'UserId'),
             "OrganizationLanguages" => $mapper->hasMany($entity, 'Data\Models\OrganizationLanguage', 'OrganiaztionId'),
+            "Languages" => $mapper->hasManyThrough($entity, 'Data\Models\Language', 'Data\Models\OrganizationLanguage', 'LanguageId', 'OrganizationId'),
+
         ];
     }
 
@@ -57,4 +59,6 @@ class Organization extends Entity
     public function PicturePath($thumb = null) {
         return sprintf("%sMedia/Organizations/%s%s", CDN_PATH, empty($this->Picture) ? "" : $thumb . "/", $this->Picture);
     }
+
+
 }
