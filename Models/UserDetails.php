@@ -35,8 +35,8 @@ class UserDetails extends Entity {
         return [
             "UserDetailsId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
             "UserId" => ['type' => 'integer', 'required' => true, 'unique' => true],
-            "FirstName" => ['type' => 'string', 'required' => true],
-            "LastName" => ['type' => 'string', 'required' => true],
+            "FirstName" => ['type' => 'string'],
+            "LastName" => ['type' => 'string'],
             "Gender" => ['type' => 'integer'],
             "DateOfBirth" => ['type' => 'datetime'],
             "Picture" => ['type' => 'string'],
