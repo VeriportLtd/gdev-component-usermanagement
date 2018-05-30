@@ -43,7 +43,7 @@ class OrganizationsDataManager
     }
 
     public static function GetOrganizationLanguages($organizationId){
-        return OrganizationLanguagesRepository::getInstance()->all()->where(['OrganizationId' => $organizationId])->execute();
+        return OrganizationLanguagesRepository::getInstance()->all()->where(['OrganizationId' => $organizationId])->with(["Language"])->execute();
     }
 
     public static function DeleteOrganizationLanguage($organizationLanguageId){

@@ -53,7 +53,7 @@ class Organization extends Entity
         if (!empty($this->Picture)) {
             return sprintf("%sMedia/Organizations/%s%s", $config->cdn->url, empty($this->Picture) ? "" : $thumb . "/", $this->Picture);
         }
-        return sprintf("%s/Content/user-default.png", $config->cdn->url);
+        return sprintf("%s/Content/default.jpg", $config->cdn->url);
     }
 
     public function PicturePath($thumb = null) {

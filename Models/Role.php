@@ -20,8 +20,6 @@ use Spot\MapperInterface;
  * @property integer Protected
  * @property integer Active
  * @property string Name
- * @property integer OrganizationId
- * @property Organization Organization
  * @property Permission[] Permissions
  * @property UserRole[] UserRoles
  * @property integer Weight
@@ -37,7 +35,6 @@ class Role extends Entity
         return [
             "RoleId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
             "Name" => ['type' => 'string', 'required' => true],
-            "OrganizationId" => ['type' => 'integer'],
             "Protected" => ['type' => 'integer', 'required' => true],
             "Active" => ['type' => 'integer', 'required' => true],
             "Weight" => ["type" => "integer", "required" => true]
@@ -49,7 +46,6 @@ class Role extends Entity
         return [
             'Permissions' => $mapper->hasManyThrough($entity, 'Gdev\UserManagement\Models\Permission', 'Gdev\UserManagement\Models\RolePermission', 'PermissionId', 'RoleId'),
             'UserRoles' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\UserRole', 'UserId'),
-            'Organization' => $mapper->belongsTo($entity, 'Gdev\UserManagement\Models\Organization', 'OrganizationId'),
         ];
     }
 }
