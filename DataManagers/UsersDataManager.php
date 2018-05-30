@@ -52,7 +52,8 @@ class UsersDataManager
 
     public static function GetUserByUserName($userName)
     {
-        return UsersRepository::getInstance()->where(['Username' => $userName])->with(["Roles", "Details"])->first();
+        //hack in order not to change all functions
+        return UsersRepository::getInstance()->where(['Email' => $userName])->with(["Roles", "Details"])->first();
     }
 
     public static function GetUserByEmail($email)
