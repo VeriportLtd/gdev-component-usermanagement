@@ -94,19 +94,20 @@ class UsersDataManager
         return UsersRepository::getInstance()->all()->whereFieldSql("UserId", "IN ($users)")->with(["Businesses", "Threads", "Roles"])->execute();
     }
 
-    public static function GetUsersWithLesserRoles($roleWeight, $organizationId = null)
+    public static function GetUsersWithLesserRoles($roleWeight, $organizationId = null, $limit, $offset)
     {
         $orgCondition = "";
         if($organizationId != null){
-            $orgCondition = "WHERE u.OrganizationId = " . $organizationId;
+            $orgCondition = "WHERE u.OrganizationId = :organizationId" . $organizationId;
         }
 
         $query = " SELECT * FROM users u
                 INNER JOIN user_roles ur ON ur.UserId = u.UserId INNER JOIN roles r ON ur.RoleId = r.RoleId AND r.Weight >= :roleWeight ". $orgCondition;
+        $query.=" LIMIT :limit OFFSET :offset";
 
         // $result = [];
         $users = UsersRepository::getInstance()
-            ->query($query, ["roleWeight" => $roleWeight]);
+            ->query($query, ["roleWeight" => $roleWeight, "organizationId"=>$organizationId, "limit"=>$limit, "offset"=>$offset]);
         return $users;
 
     }
