@@ -96,6 +96,8 @@ class UsersDataManager
 
     public static function GetUsersWithLesserRoles($roleWeight, $organizationId = null, $limit, $offset)
     {
+        $limit = (int) $limit;
+        $offset = (int) $offset;
         $orgCondition = "";
         if($organizationId != null){
             $orgCondition = "WHERE u.OrganizationId = :organizationId" . $organizationId;
@@ -103,11 +105,11 @@ class UsersDataManager
 
         $query = " SELECT * FROM users u
                 INNER JOIN user_roles ur ON ur.UserId = u.UserId INNER JOIN roles r ON ur.RoleId = r.RoleId AND r.Weight >= :roleWeight ". $orgCondition;
-        $query.=" LIMIT :limit OFFSET :offset";
+        $query.=" LIMIT $limit OFFSET $offset";
 
         // $result = [];
         $users = UsersRepository::getInstance()
-            ->query($query, ["roleWeight" => $roleWeight, "organizationId"=>$organizationId, "limit"=>$limit, "offset"=>$offset]);
+            ->query($query, ["roleWeight" => $roleWeight, "organizationId"=>$organizationId]);
         return $users;
 
     }
