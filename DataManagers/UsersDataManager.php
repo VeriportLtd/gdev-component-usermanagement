@@ -144,4 +144,10 @@ class UsersDataManager
         return UsersRepository::GetLastLoggedInUser($minWeight);
     }
 
+    public static function CountUsers()
+    {
+        return UsersRepository::getInstance()->all()->count();
+    }
+
+
 }
