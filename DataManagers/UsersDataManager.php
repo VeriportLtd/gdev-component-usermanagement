@@ -94,22 +94,27 @@ class UsersDataManager
         return UsersRepository::getInstance()->all()->whereFieldSql("UserId", "IN ($users)")->with(["Businesses", "Threads", "Roles"])->execute();
     }
 
-    public static function GetUsersWithLesserRoles($roleWeight, $organizationId = null, $limit, $offset)
+    public static function GetUsersWithLesserRoles($roleWeight, $organizationId = null, $limit = null, $offset = null)
     {
-        $limit = (int) $limit;
-        $offset = (int) $offset;
+        $limit = (int)$limit;
+        $offset = (int)$offset;
         $orgCondition = "";
-        if($organizationId != null){
+        if ($organizationId != null) {
             $orgCondition = "WHERE u.OrganizationId = :organizationId" . $organizationId;
         }
 
         $query = " SELECT * FROM users u
-                INNER JOIN user_roles ur ON ur.UserId = u.UserId INNER JOIN roles r ON ur.RoleId = r.RoleId AND r.Weight >= :roleWeight ". $orgCondition;
-        $query.=" LIMIT $limit OFFSET $offset";
+                INNER JOIN user_roles ur ON ur.UserId = u.UserId INNER JOIN roles r ON ur.RoleId = r.RoleId AND r.Weight >= :roleWeight " . $orgCondition;
+        if (!empty($limit)) {
+            $query .= " LIMIT $limit";
+        }
+        if (!empty($offset)) {
+            $query .= " OFFSET $offset";
+        }
 
         // $result = [];
         $users = UsersRepository::getInstance()
-            ->query($query, ["roleWeight" => $roleWeight, "organizationId"=>$organizationId]);
+            ->query($query, ["roleWeight" => $roleWeight, "organizationId" => $organizationId]);
         return $users;
 
     }
@@ -140,7 +145,8 @@ class UsersDataManager
         return $users;
     }
 
-    public static function GetLastLoggedInUser($minWeight){
+    public static function GetLastLoggedInUser($minWeight)
+    {
         return UsersRepository::GetLastLoggedInUser($minWeight);
     }
 

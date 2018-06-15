@@ -92,7 +92,7 @@ class UsersApiController
     public static function CountUsers() {
         return UsersDataManager::CountUsers();
     }
-    public static function GetUsersWithLesserRoles($roleWeight, $organizationId = null, $limit, $offset)
+    public static function GetUsersWithLesserRoles($roleWeight, $organizationId = null, $limit=null, $offset=null)
     {
         return UsersDataManager::GetUsersWithLesserRoles($roleWeight, $organizationId, $limit, $offset);
     }
