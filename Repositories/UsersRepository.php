@@ -2,7 +2,10 @@
 
 namespace Gdev\UserManagement\Repositories;
 
+use Business\DTO\GroupableColumnDTO;
+use Business\DTO\RequiredConditionDTO;
 use Data\Repositories\BaseRepository;
+use DataTablesHelper;
 
 /**
  * Class UsersRepository
@@ -40,5 +43,25 @@ class UsersRepository extends BaseRepository
         }
         return new \LastLoggedUserDTO($data[0]->FirstName, $data[0]->LastName, $data[0]->Image, $data[0]->StartDate);
 
+    }
+
+    public static function GetFilteredList($start, $length, $columns, $order, $search, $organizationId)
+    {
+        $booleanColumns = [];
+        $cols = DataTablesHelper::GetParameters($columns, $order, $search);
+        $numericColumns = [];
+        $groupableColumns = [];
+        $joins = [
+            "LEFT JOIN user_details on user_details.UserId = users.UserId",
+        ];
+
+        $groupBy = null;
+
+        $rc = new RequiredConditionDTO("users", "OrganizationId", $organizationId);
+        $rcJoins = [];
+
+        $queries = static::PrepareDataTableQuery($start, $length, $cols, $groupableColumns, $numericColumns, $joins, $groupBy, $rc, $rcJoins);
+
+        return static::executeDTQuery($queries);
     }
 }

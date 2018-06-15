@@ -17,6 +17,21 @@ use Gdev\UserManagement\Models\UserDetails;
 class UsersApiController
 {
 
+    /**
+     * @param $start
+     * @param $length
+     * @param $columns
+     * @param $order
+     * @param $search
+     * @param null $organizationId
+     * @return \Business\DTO\DTDataDTO
+     */
+    public static function GetFilteredList($start, $length, $columns, $order, $search, $organizationId = null)
+    {
+        return UsersDataManager::GetFilteredList($start, $length, $columns, $order, $search, $organizationId);
+
+    }
+
     public static function GetActiveUsers($offset = null, $limit = null, $organizationId = null)
     {
         return UsersDataManager::GetActiveUsers($offset, $limit, $organizationId);
@@ -121,6 +136,11 @@ class UsersApiController
     }
     public static function GetLastLoggedInUser($minWeight) {
         return UsersDataManager::GetLastLoggedInUser($minWeight);
+    }
+
+    public static function GetAllUsers()
+    {
+        return UsersDataManager::GetAllUsers();
     }
 
 

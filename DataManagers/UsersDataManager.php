@@ -17,6 +17,11 @@ use Gdev\UserManagement\Repositories\UserStatusesRepository;
 class UsersDataManager
 {
 
+    public static function GetFilteredList($start,$length, $columns, $order, $search, $organizationId)
+    {
+        return UsersRepository::GetFilteredList($start,$length, $columns, $order, $search, $organizationId);
+    }
+
     public static function GetUsers($offset = null, $limit = null, $organizationId = null)
     {
         $wheres = [];
@@ -132,5 +137,10 @@ class UsersDataManager
 
     public static function GetLastLoggedInUser($minWeight){
         return UsersRepository::GetLastLoggedInUser($minWeight);
+    }
+
+    public static function GetAllUsers()
+    {
+        return UsersRepository::getInstance()->all();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Gdev\UserManagement\Models;
 
+use Data\Models\MVCModel;
 use DateTime;
 use Spot\Entity;
 use Spot\EntityInterface;
@@ -28,7 +29,7 @@ use Spot\MapperInterface;
  * @property Thread[] Threads
  * @property Message[] Messages
  */
-class User extends Entity
+class User extends MVCModel
 {
 
     // Database Mapping
