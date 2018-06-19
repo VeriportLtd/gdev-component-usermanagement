@@ -100,7 +100,7 @@ class UsersDataManager
         $offset = (int)$offset;
         $orgCondition = "";
         if ($organizationId != null) {
-            $orgCondition = "WHERE u.OrganizationId = :organizationId" . $organizationId;
+            $orgCondition = "WHERE u.OrganizationId = :organizationId";
         }
 
         $query = " SELECT * FROM users u
