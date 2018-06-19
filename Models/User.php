@@ -38,7 +38,7 @@ class User extends MVCModel
 
     public static function fields()
     {
-        return [
+        $fields = [
             "UserId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
             "UserName" => ['type' => 'string', 'required' => true, 'unique' => true],
             "OrganizationId" => ['type' => 'integer'],
@@ -49,6 +49,7 @@ class User extends MVCModel
             "Active" => ['type' => 'integer', 'required' => false],
             "Approved" => ['type' => 'integer', 'required' => false],
         ];
+        return array_merge($fields, parent::fields());
     }
 
     public static function relations(MapperInterface $mapper, EntityInterface $entity)
