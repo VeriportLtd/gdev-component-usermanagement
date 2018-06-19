@@ -45,15 +45,21 @@ class UsersRepository extends BaseRepository
 
     }
 
-    public static function GetFilteredList($start, $length, $columns, $order, $search, $organizationId)
+    public static function GetFilteredList($start, $length, $columns, $order, $search, $organizationId, $roleWeight)
     {
         $booleanColumns = [];
+
         $cols = DataTablesHelper::GetParameters($columns, $order, $search);
         $numericColumns = [];
         $groupableColumns = [];
         $joins = [
             "LEFT JOIN user_details on user_details.UserId = users.UserId",
         ];
+        if (!empty($roleWeight)) {
+            $joins[] = "INNER JOIN user_roles ur ON ur.UserId = users.UserId";
+            $joins[] = "INNER JOIN roles r ON ur.RoleId = r.RoleId AND r.Weight >= $roleWeight";
+
+        }
 
         $groupBy = null;
 

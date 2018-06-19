@@ -17,9 +17,9 @@ use Gdev\UserManagement\Repositories\UserStatusesRepository;
 class UsersDataManager
 {
 
-    public static function GetFilteredList($start,$length, $columns, $order, $search, $organizationId)
+    public static function GetFilteredList($start,$length, $columns, $order, $search, $organizationId, $roleWeight)
     {
-        return UsersRepository::GetFilteredList($start,$length, $columns, $order, $search, $organizationId);
+        return UsersRepository::GetFilteredList($start,$length, $columns, $order, $search, $organizationId, $roleWeight);
     }
 
     public static function GetUsers($offset = null, $limit = null, $organizationId = null)

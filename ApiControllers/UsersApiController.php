@@ -24,11 +24,12 @@ class UsersApiController
      * @param $order
      * @param $search
      * @param null $organizationId
+     * @param null $roleWeight
      * @return \Business\DTO\DTDataDTO
      */
-    public static function GetFilteredList($start, $length, $columns, $order, $search, $organizationId = null)
+    public static function GetFilteredList($start, $length, $columns, $order, $search, $organizationId = null, $roleWeight = null)
     {
-        return UsersDataManager::GetFilteredList($start, $length, $columns, $order, $search, $organizationId);
+        return UsersDataManager::GetFilteredList($start, $length, $columns, $order, $search, $organizationId, $roleWeight);
 
     }
 
@@ -134,7 +135,9 @@ class UsersApiController
         }
         return UsersDataManager::GetUsersForSelectedRoles($roleIds);
     }
-    public static function GetLastLoggedInUser($minWeight) {
+
+    public static function GetLastLoggedInUser($minWeight)
+    {
         return UsersDataManager::GetLastLoggedInUser($minWeight);
     }
 
