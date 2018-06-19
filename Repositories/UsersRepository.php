@@ -63,8 +63,14 @@ class UsersRepository extends BaseRepository
 
         $groupBy = null;
 
+        $rc = new RequiredConditionDTO("r", "Weight", $roleWeight, ">=");
         $rc = new RequiredConditionDTO("users", "OrganizationId", $organizationId);
         $rcJoins = [];
+        if (!empty($roleWeight)) {
+            $rcJoins[] = "INNER JOIN user_roles ur ON ur.UserId = users.UserId";
+            $rcJoins[] = "INNER JOIN roles r ON ur.RoleId = r.RoleId AND r.Weight >= $roleWeight";
+
+        }
 
         $queries = static::PrepareDataTableQuery($start, $length, $cols, $groupableColumns, $numericColumns, $joins, $groupBy, $rc, $rcJoins);
 
