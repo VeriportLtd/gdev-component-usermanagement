@@ -55,16 +55,12 @@ class UsersRepository extends BaseRepository
         $joins = [
             "LEFT JOIN user_details on user_details.UserId = users.UserId",
         ];
-        if (!empty($roleWeight)) {
-            $joins[] = "INNER JOIN user_roles ur ON ur.UserId = users.UserId";
-            $joins[] = "INNER JOIN roles r ON ur.RoleId = r.RoleId AND r.Weight >= $roleWeight";
 
-        }
 
         $groupBy = null;
-
-        $rc = new RequiredConditionDTO("r", "Weight", $roleWeight, ">=");
-        $rc = new RequiredConditionDTO("users", "OrganizationId", $organizationId);
+        $rc =[];
+        $rc[] = new RequiredConditionDTO("r", "Weight", $roleWeight, ">=");
+        $rc[] = new RequiredConditionDTO("users", "OrganizationId", $organizationId);
         $rcJoins = [];
         if (!empty($roleWeight)) {
             $rcJoins[] = "INNER JOIN user_roles ur ON ur.UserId = users.UserId";
