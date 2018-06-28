@@ -163,8 +163,8 @@ class UsersDataManager
             $userIds[] = $allowedLiveChatUser->UserId;
         }
         foreach ($allowedAllLiveChatUsers as $allowedAllLiveChatUser) {
-            $userIds[] = $allowedAllLiveChatUser;
+            $userIds[] = $allowedAllLiveChatUser->UserId;
         }
-        return $userIds;
+        return array_unique($userIds);
     }
 }
