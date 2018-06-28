@@ -48,6 +48,19 @@ class UsersApiController
         return UsersDataManager::GetNotApprovedUsers($offset, $limit, $organizationId);
     }
 
+    /**
+     * @param [] $businesses
+     * @return int[]
+     */
+    public static function GetUsersWithAbilityToViewLiveChat($businesses)
+    {
+        $businessIds = [];
+        foreach ($businesses as $business) {
+            $businessIds[] = $business->BusinessId;
+        }
+        return UsersDataManager::GetUsersWithAbilityToViewLiveChat($businessIds);
+    }
+
     public static function GetUsersByCurrentStatus($statusId)
     {
         return UsersDataManager::GetUsersByCurrentStatus($statusId);
