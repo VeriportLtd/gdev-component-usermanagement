@@ -9,6 +9,7 @@
 namespace Gdev\UserManagement\ApiControllers;
 
 use Business\Security\Users;
+use Business\Enums\PermissionsEnum;
 use Gdev\UserManagement\DataManagers\UserDetailsDataManager;
 use Gdev\UserManagement\DataManagers\UsersDataManager;
 use Gdev\UserManagement\Models\User;
@@ -58,7 +59,7 @@ class UsersApiController
         foreach ($businesses as $business) {
             $businessIds[] = $business->BusinessId;
         }
-        return UsersDataManager::GetUsersWithAbilityToViewLiveChat($businessIds);
+        return UsersDataManager::GetUsersWithAbilityToViewLiveChat($businessIds, PermissionsEnum::ViewAllLiveChatData, PermissionsEnum::ViewLiveChatData);
     }
 
     public static function GetUsersByCurrentStatus($statusId)
