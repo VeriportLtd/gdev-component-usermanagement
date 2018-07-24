@@ -17,9 +17,9 @@ use Gdev\UserManagement\Repositories\UserStatusesRepository;
 class UsersDataManager
 {
 
-    public static function GetFilteredList($start,$length, $columns, $order, $search, $organizationId, $roleWeight)
+    public static function GetFilteredList($start, $length, $columns, $order, $search, $organizationId, $roleWeight)
     {
-        return UsersRepository::GetFilteredList($start,$length, $columns, $order, $search, $organizationId, $roleWeight);
+        return UsersRepository::GetFilteredList($start, $length, $columns, $order, $search, $organizationId, $roleWeight);
     }
 
     public static function GetUsers($offset = null, $limit = null, $organizationId = null)
@@ -135,12 +135,36 @@ class UsersDataManager
         return $users;
     }
 
-    public static function GetLastLoggedInUser($minWeight){
+    public static function GetLastLoggedInUser($minWeight)
+    {
         return UsersRepository::GetLastLoggedInUser($minWeight);
     }
 
     public static function GetAllUsers()
     {
         return UsersRepository::getInstance()->all();
+    }
+
+    /**
+     * @param int[] $businessIds
+     * @param int $allLiveChatDataPermission
+     * @param int $liveChatDataPermission
+     * @return int[]
+     */
+    public static function GetUsersWithAbilityToViewLiveChat($businessIds, $allLiveChatDataPermission, $liveChatDataPermission)
+    {
+        $userIds = [];
+        $businessIds = implode(",", $businessIds);
+        $query = "SELECT u.UserId from users u INNER JOIN user_roles ur ON u.UserId=ur.UserId INNER JOIN role_permissions rp ON ur.RoleId = rp.RoleId AND rp.PermissionId=$liveChatDataPermission INNER JOIN user_businesses ub ON u.UserId=ub.UserId  AND ub.BusinessId IN ($businessIds)";
+        $allowedLiveChatUsers = UsersRepository::getInstance()->query($query);
+        $query = "SELECT u.UserId from users u INNER JOIN user_roles ur ON u.UserId=ur.UserId INNER JOIN role_permissions rp ON ur.RoleId = rp.RoleId AND rp.PermissionId=$allLiveChatDataPermission";
+        $allowedAllLiveChatUsers = UsersRepository::getInstance()->query($query);
+        foreach ($allowedLiveChatUsers as $allowedLiveChatUser) {
+            $userIds[] = $allowedLiveChatUser->UserId;
+        }
+        foreach ($allowedAllLiveChatUsers as $allowedAllLiveChatUser) {
+            $userIds[] = $allowedAllLiveChatUser->UserId;
+        }
+        return array_unique($userIds);
     }
 }

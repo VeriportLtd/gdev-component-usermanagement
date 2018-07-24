@@ -9,6 +9,7 @@
 namespace Gdev\UserManagement\ApiControllers;
 
 use Business\Security\Users;
+use Business\Enums\PermissionsEnum;
 use Gdev\UserManagement\DataManagers\UserDetailsDataManager;
 use Gdev\UserManagement\DataManagers\UsersDataManager;
 use Gdev\UserManagement\Models\User;
@@ -46,6 +47,19 @@ class UsersApiController
     public static function GetNotApprovedUsers($offset = null, $limit = null, $organizationId = null)
     {
         return UsersDataManager::GetNotApprovedUsers($offset, $limit, $organizationId);
+    }
+
+    /**
+     * @param [] $businesses
+     * @return int[]
+     */
+    public static function GetUsersWithAbilityToViewLiveChat($businesses)
+    {
+        $businessIds = [];
+        foreach ($businesses as $business) {
+            $businessIds[] = $business->BusinessId;
+        }
+        return UsersDataManager::GetUsersWithAbilityToViewLiveChat($businessIds, PermissionsEnum::ViewAllLiveChatData, PermissionsEnum::ViewLiveChatData);
     }
 
     public static function GetUsersByCurrentStatus($statusId)
