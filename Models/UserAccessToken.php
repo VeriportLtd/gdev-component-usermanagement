@@ -9,6 +9,7 @@
 namespace Gdev\UserManagement\Models;
 
 use DateTime;
+use Gdev\UserManagement\Components\UserManagementDependencyResolver;
 use Spot\Entity;
 use Spot\EntityInterface;
 use Spot\MapperInterface;
@@ -40,7 +41,7 @@ class UserAccessToken extends Entity{
 	public static function relations(MapperInterface $mapper, EntityInterface $entity)
 	{
 		return [
-			'User' => $mapper->belongsTo($entity, 'Gdev\UserManagement\Models\User', 'UserId')
+			'User' => $mapper->belongsTo($entity, UserManagementDependencyResolver::getInstance()->Resolve("User"), 'UserId')
 		];
 	}
 

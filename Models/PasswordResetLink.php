@@ -44,7 +44,7 @@ class PasswordResetLink extends Entity
 	public static function relations(MapperInterface $mapper, EntityInterface $entity)
 	{
 		return [
-			'User' => $mapper->belongsTo($entity, 'Gdev\UserManagement\Models\User', 'UserId')
+			'User' => $mapper->belongsTo($entity, UserManagementDependencyResolver::getInstance()->Resolve("User"), 'UserId')
 		];
 	}
 }

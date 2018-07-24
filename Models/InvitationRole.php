@@ -2,6 +2,7 @@
 
 namespace Gdev\UserManagement\Models;
 
+use Gdev\UserManagement\Components\UserManagementDependencyResolver;
 use Spot\Entity;
 use Spot\EntityInterface;
 use Spot\MapperInterface;
@@ -32,8 +33,8 @@ class InvitationRole extends Entity
     public static function relations(MapperInterface $mapper, EntityInterface $entity)
     {
         return [
-            'Invitation' => $mapper->belongsTo($entity, 'Gdev\UserManagement\Models\Invitation', 'InvitationId'),
-            'Role' => $mapper->belongsTo($entity, 'Gdev\UserManagement\Models\Role', 'RoleId')
+            'Invitation' => $mapper->belongsTo($entity, UserManagementDependencyResolver::getInstance()->Resolve("Invitation"), 'InvitationId'),
+            'Role' => $mapper->belongsTo($entity, UserManagementDependencyResolver::getInstance()->Resolve("Role"), 'RoleId')
         ];
     }
 }

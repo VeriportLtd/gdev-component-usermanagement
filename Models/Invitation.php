@@ -3,6 +3,7 @@
 namespace Gdev\UserManagement\Models;
 
 use DateTime;
+use Gdev\UserManagement\Components\UserManagementDependencyResolver;
 use Spot\Entity;
 use Spot\EntityInterface;
 use Spot\MapperInterface;
@@ -46,9 +47,9 @@ class Invitation extends Entity
     public static function relations(MapperInterface $mapper, EntityInterface $entity)
     {
         return [
-            'Sender' => $mapper->belongsTo($entity, 'Gdev\UserManagement\Models\User', 'SenderId'),
-            'User' => $mapper->belongsTo($entity, 'Gdev\UserManagement\Models\User', 'RegisteredUserId'),
-            'Roles' => $mapper->hasManyThrough($entity, 'Gdev\UserManagement\Models\Role', 'Gdev\UserManagement\Models\InvitationRole', 'RoleId', 'InvitationId'),
+            'Sender' => $mapper->belongsTo($entity, UserManagementDependencyResolver::getInstance()->Resolve("User"), 'SenderId'),
+            'User' => $mapper->belongsTo($entity, UserManagementDependencyResolver::getInstance()->Resolve("User"), 'RegisteredUserId'),
+            'Roles' => $mapper->hasManyThrough($entity, UserManagementDependencyResolver::getInstance()->Resolve("Role"), 'Gdev\UserManagement\Models\InvitationRole', 'RoleId', 'InvitationId'),
         ];
     }
 

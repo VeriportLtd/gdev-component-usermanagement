@@ -8,6 +8,7 @@
 
 namespace Gdev\UserManagement\Models;
 
+use Gdev\UserManagement\Components\UserManagementDependencyResolver;
 use Spot\Entity;
 use Spot\EntityInterface;
 use Spot\MapperInterface;
@@ -39,8 +40,8 @@ class Permission extends Entity
 	public static function relations(MapperInterface $mapper, EntityInterface $entity)
 	{
 		return [
-			'PermissionDescriptions' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\PermissionDescription', 'PermissionId'),
-			'RolePermissions' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\Permission', 'PermissionId'),
+			'PermissionDescriptions' => $mapper->hasMany($entity, UserManagementDependencyResolver::getInstance()->Resolve("PermissionDescription"), 'PermissionId'),
+			'RolePermissions' => $mapper->hasMany($entity, UserManagementDependencyResolver::getInstance()->Resolve("Permission"), 'PermissionId'),
 		];
 	}
 }

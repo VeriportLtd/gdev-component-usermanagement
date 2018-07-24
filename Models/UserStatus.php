@@ -9,6 +9,7 @@
 namespace Gdev\UserManagement\Models;
 
 use DateTime;
+use Gdev\UserManagement\Components\UserManagementDependencyResolver;
 use Spot\Entity;
 use Spot\EntityInterface;
 use Spot\MapperInterface;
@@ -41,8 +42,8 @@ class UserStatus extends Entity{
 
 	public static function relations(MapperInterface $mapper, EntityInterface $entity) {
 		return [
-			'User' => $mapper->belongsTo($entity, 'Gdev\UserManagement\Models\User', 'UserId'),
-			'UserStatus' => $mapper->belongsTo($entity, 'Gdev\UserManagement\Models\UserStatusType', 'UserStatusTypeId')
+			'User' => $mapper->belongsTo($entity, UserManagementDependencyResolver::getInstance()->Resolve("User"), 'UserId'),
+			'UserStatus' => $mapper->belongsTo($entity, UserManagementDependencyResolver::getInstance()->Resolve("UserStatusType"), 'UserStatusTypeId')
 		];
 	}
 }
