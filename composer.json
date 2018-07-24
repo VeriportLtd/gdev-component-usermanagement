@@ -1,8 +1,17 @@
 {
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://gitlab.com/BackslashSoft/Backslash/Framework/Modules/Resolver.git"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "Gdev\\UserManagement\\": "/"
     }
+  },
+  "require": {
+    "backslash/resolver": "dev-master"
   },
   "name": "gdev/user-management"
 }

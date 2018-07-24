@@ -20,7 +20,7 @@ use Spot\MapperInterface;
  * @property DateTime InvitationDate
  * @property boolean Anonymous
  * @property User User
- * @property UserDetails UserDetails
+ * @property UserDetail UserDetail
  * @property Role[] Roles
  */
 class Invitation extends Entity

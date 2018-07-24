@@ -15,10 +15,10 @@ use Spot\EntityInterface;
 use Spot\MapperInterface;
 
 /**
- * Class UserDetails
+ * Class UserDetail
  * @package Models
  *
- * @property integer UserDetailsId
+ * @property integer UserDetailId
  * @property integer UserId
  * @property string FirstName
  * @property string LastName
@@ -26,14 +26,14 @@ use Spot\MapperInterface;
  * @property DateTime DateOfBirth
  * @property string Picture
  */
-class UserDetails extends Entity {
+class UserDetail extends Entity {
 
     // Database Mapping
     protected static $table = "user_details";
 
     public static function fields() {
         return [
-            "UserDetailsId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
+            "UserDetailId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
             "UserId" => ['type' => 'integer', 'required' => true, 'unique' => true],
             "FirstName" => ['type' => 'string', 'required' => true],
             "LastName" => ['type' => 'string', 'required' => true],

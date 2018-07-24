@@ -4,6 +4,7 @@ namespace Gdev\UserManagement\Models;
 
 use Data\Models\MVCModel;
 use DateTime;
+use Gdev\UserManagement\Components\UserManagementDependencyResolver;
 use Spot\Entity;
 use Spot\EntityInterface;
 use Spot\MapperInterface;
@@ -21,7 +22,7 @@ use Spot\MapperInterface;
  * @property integer Active
  * @property integer Approved
  * @property integer OrganizationId
- * @property UserDetails Details
+ * @property UserDetail Details
  * @property Organization Organization
  * @property Role[] Roles
  * @property UserStatus[] Statuses
@@ -55,9 +56,9 @@ class User extends MVCModel
     public static function relations(MapperInterface $mapper, EntityInterface $entity)
     {
         return [
-            'Statuses' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\UserStatus', 'UserId'),
-            'Roles' => $mapper->hasManyThrough($entity, 'Gdev\UserManagement\Models\Role', 'Gdev\UserManagement\Models\UserRole', 'RoleId', 'UserId'),
-            'Details' => $mapper->hasOne($entity, 'Gdev\UserManagement\Models\UserDetails', 'UserId'),
+            'Statuses' => $mapper->hasMany($entity, UserManagementDependencyResolver::getInstance()->Resolve("UserStatus"), 'UserId'),
+            'Roles' => $mapper->hasManyThrough($entity, UserManagementDependencyResolver::getInstance()->Resolve("Role"), UserManagementDependencyResolver::getInstance()->Resolve("UserRole"), 'RoleId', 'UserId'),
+            'Details' => $mapper->hasOne($entity, UserManagementDependencyResolver::getInstance()->Resolve("UserDetail"), 'UserId'),
             'Organization' => $mapper->belongsTo($entity, 'Gdev\UserManagement\Models\Organization', 'OrganizationId'),
             'ConfirmationLinks' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\ConfirmationLink', 'UserId'),
             'PasswordResetLinks' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\PasswordResetLink', 'UserId'),
