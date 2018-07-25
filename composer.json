@@ -11,7 +11,7 @@
     }
   },
   "require": {
-    "sabre/event": "~2.0"
+    "backslash/resolver": "dev-master"
   },
   "name": "gdev/user-management"
 }
