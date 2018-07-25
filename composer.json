@@ -2,7 +2,7 @@
   "repositories": [
     {
       "type": "git",
-      "url": "https://gitlab.com/BackslashSoft/Framework/Modules/Resolver.git"
+      "url": "https://github.com/backslashsoft/component-resolver.git"
     }
   ],
   "autoload": {
