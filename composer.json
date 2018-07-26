@@ -1,10 +1,5 @@
 {
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/backslashsoft/component-resolver.git"
-    }
-  ],
+  "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
       "Gdev\\UserManagement\\": "/"
@@ -13,5 +8,11 @@
   "require": {
     "backslashsoft/component-resolver": "dev-master"
   },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/backslashsoft/component-resolver.git"
+    }
+  ],
   "name": "gdev/user-management"
 }
