@@ -8,7 +8,7 @@
 
 namespace Gdev\UserManagement\Components;
 
-class UserManagementDependencyResolver extends \Backslash\DependencyResolver
+class UserManagementDependencyResolver extends \Backslash\Resolver\DependencyResolver
 {
     const DEFAULT_PATH = ROOT_PATH . "Data/Models";
     const DEFAULT_NAMESPACE = "Data\Models";
