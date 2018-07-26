@@ -1,17 +1,17 @@
 {
-  "repositories": [
-    {
-      "type": "git",
+  "repositories": {
+    "0": {
+      "type": "vcs",
       "url": "https://github.com/backslashsoft/component-resolver.git"
     }
-  ],
+  },
   "autoload": {
     "psr-4": {
       "Gdev\\UserManagement\\": "/"
     }
   },
   "require": {
-    "backslashsoft/component-resolver": "*"
+    "backslashsoft/component-resolver": "dev-master"
   },
   "name": "gdev/user-management"
 }
