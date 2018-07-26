@@ -11,7 +11,7 @@
     }
   },
   "require": {
-    "backslashsoft/component-resolver": "dev-master"
+    "backslashsoft/component-resolver": "*"
   },
   "name": "gdev/user-management"
 }
