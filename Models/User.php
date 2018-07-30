@@ -63,7 +63,6 @@ class User extends MVCModel
             'ConfirmationLinks' => $mapper->hasMany($entity, UserManagementDependencyResolver::getInstance()->Resolve("ConfirmationLink"), 'UserId'),
             'PasswordResetLinks' => $mapper->hasMany($entity, UserManagementDependencyResolver::getInstance()->Resolve("PasswordResetLink"), 'UserId'),
             'UserAccessTokens' => $mapper->hasMany($entity, UserManagementDependencyResolver::getInstance()->Resolve("UserAccessToken"), 'UserId'),
-            "Businesses" => $mapper->hasManyThrough($entity, UserManagementDependencyResolver::getInstance()->Resolve("Business"), UserManagementDependencyResolver::getInstance()->Resolve("UserBusiness"), 'BusinessId', 'UserId'),
             "Threads" => $mapper->hasManyThrough($entity, UserManagementDependencyResolver::getInstance()->Resolve("MessageThread"), UserManagementDependencyResolver::getInstance()->Resolve("UserThread"), "ThreadId", "UserId")->order(["UpdatedAt" => "DESC"]),
             "LastFiveThreads" => $mapper->hasManyThrough($entity, UserManagementDependencyResolver::getInstance()->Resolve("MessageThread"), UserManagementDependencyResolver::getInstance()->Resolve("UserThread"), "ThreadId", "UserId")->order(["UpdatedAt" => "DESC"])->limit(5),
             "Messages" => $mapper->hasManyThrough($entity, UserManagementDependencyResolver::getInstance()->Resolve("Message"), UserManagementDependencyResolver::getInstance()->Resolve("UserMessage"), "MessageId", "UserId")->order(["CreatedAt" => "DESC"])
