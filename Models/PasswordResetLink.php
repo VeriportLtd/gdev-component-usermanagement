@@ -12,6 +12,7 @@ use DateTime;
 use Spot\Entity;
 use Spot\EntityInterface;
 use Spot\MapperInterface;
+use Gdev\UserManagement\Components\UserManagementDependencyResolver;
 
 /**
  * Class PasswordResetLink
