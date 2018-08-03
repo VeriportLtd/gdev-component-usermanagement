@@ -52,7 +52,7 @@ class UsersDataManager
     public static function GetUserById($userId)
     {
 
-        return UsersRepository::getInstance()->where(['UserId' => $userId])->with(["Roles", "Details", "Businesses", "Threads"])->first();
+        return UsersRepository::getInstance()->where(['UserId' => $userId])->with(["Roles", "Details", "Threads"])->first();
     }
 
     public static function GetUserByUserName($userName)
@@ -95,7 +95,7 @@ class UsersDataManager
     public static function GetUsersByUserId($userIds)
     {
         $users = implode(',', $userIds);
-        return UsersRepository::getInstance()->all()->whereFieldSql("UserId", "IN ($users)")->with(["Businesses", "Threads", "Roles"])->execute();
+        return UsersRepository::getInstance()->all()->whereFieldSql("UserId", "IN ($users)")->with(["Threads", "Roles"])->execute();
     }
 
     public static function GetUsersWithLesserRoles($roleWeight)
@@ -109,16 +109,6 @@ class UsersDataManager
 
     }
 
-    public static function GetUsersForSelectedBusinesses($businessIds)
-    {
-        $businessIds = implode(",", $businessIds);
-        $userBusinesses = UserBusinessesRepository::getInstance()->all()->whereFieldSql("BusinessId", "IN ($businessIds)")->with(["User"])->execute();
-        $users = [];
-        foreach ($userBusinesses as $userBusiness) {
-            $users[] = $userBusiness->User;
-        }
-        return $users;
-    }
 
     /**
      * @param $roleIds
@@ -145,26 +135,4 @@ class UsersDataManager
         return UsersRepository::getInstance()->all();
     }
 
-    /**
-     * @param int[] $businessIds
-     * @param int $allLiveChatDataPermission
-     * @param int $liveChatDataPermission
-     * @return int[]
-     */
-    public static function GetUsersWithAbilityToViewLiveChat($businessIds, $allLiveChatDataPermission, $liveChatDataPermission)
-    {
-        $userIds = [];
-        $businessIds = implode(",", $businessIds);
-        $query = "SELECT u.UserId from users u INNER JOIN user_roles ur ON u.UserId=ur.UserId INNER JOIN role_permissions rp ON ur.RoleId = rp.RoleId AND rp.PermissionId=$liveChatDataPermission INNER JOIN user_businesses ub ON u.UserId=ub.UserId  AND ub.BusinessId IN ($businessIds)";
-        $allowedLiveChatUsers = UsersRepository::getInstance()->query($query);
-        $query = "SELECT u.UserId from users u INNER JOIN user_roles ur ON u.UserId=ur.UserId INNER JOIN role_permissions rp ON ur.RoleId = rp.RoleId AND rp.PermissionId=$allLiveChatDataPermission";
-        $allowedAllLiveChatUsers = UsersRepository::getInstance()->query($query);
-        foreach ($allowedLiveChatUsers as $allowedLiveChatUser) {
-            $userIds[] = $allowedLiveChatUser->UserId;
-        }
-        foreach ($allowedAllLiveChatUsers as $allowedAllLiveChatUser) {
-            $userIds[] = $allowedAllLiveChatUser->UserId;
-        }
-        return array_unique($userIds);
-    }
 }
