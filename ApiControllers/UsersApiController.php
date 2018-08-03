@@ -49,18 +49,6 @@ class UsersApiController
         return UsersDataManager::GetNotApprovedUsers($offset, $limit, $organizationId);
     }
 
-    /**
-     * @param [] $businesses
-     * @return int[]
-     */
-    public static function GetUsersWithAbilityToViewLiveChat($businesses)
-    {
-        $businessIds = [];
-        foreach ($businesses as $business) {
-            $businessIds[] = $business->BusinessId;
-        }
-        return UsersDataManager::GetUsersWithAbilityToViewLiveChat($businessIds, PermissionsEnum::ViewAllLiveChatData, PermissionsEnum::ViewLiveChatData);
-    }
 
     public static function GetUsersByCurrentStatus($statusId)
     {
@@ -123,14 +111,6 @@ class UsersApiController
     public static function GetUsersWithLesserRoles($roleWeight)
     {
         return UsersDataManager::GetUsersWithLesserRoles($roleWeight);
-    }
-
-    public static function GetUsersForSelectedBusinesses($businessIds = [])
-    {
-        if (empty($businessIds)) {
-            return [];
-        }
-        return UsersDataManager::GetUsersForSelectedBusinesses($businessIds);
     }
 
     public static function GetUsersByUserId($userIds = [])
