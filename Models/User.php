@@ -18,7 +18,6 @@ use Spot\MapperInterface;
  * @property DateTime RegistrationDate
  * @property string Email
  * @property string Password
- * @property string FbAccessToken
  * @property integer Active
  * @property integer Approved
  * @property integer OrganizationId
@@ -26,7 +25,6 @@ use Spot\MapperInterface;
  * @property Organization Organization
  * @property Role[] Roles
  * @property UserStatus[] Statuses
- * @property Bussiness[] Businesses
  * @property Thread[] Threads
  * @property Message[] Messages
  */
@@ -46,7 +44,6 @@ class User extends MVCModel
             "RegistrationDate" => ['type' => 'datetime', 'required' => true],
             "Email" => ['type' => 'string', 'required' => true, 'unique' => true],
             "Password" => ['type' => 'string', 'required' => true],
-            "FbAccessToken" => ['type' => 'text', 'required' => false],
             "Active" => ['type' => 'integer', 'required' => false],
             "Approved" => ['type' => 'integer', 'required' => false],
         ];
