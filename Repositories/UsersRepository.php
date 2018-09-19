@@ -56,7 +56,6 @@ class UsersRepository extends BaseRepository
             "LEFT JOIN user_details on user_details.UserId = users.UserId",
         ];
 
-
         $groupBy = null;
         $rc =[];
         $rc[] = new RequiredConditionDTO("r", "Weight", $roleWeight, ">=");
