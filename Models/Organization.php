@@ -6,6 +6,7 @@ use Gdev\UserManagement\Components\UserManagementDependencyResolver;
 use Spot\Entity;
 use Spot\EntityInterface;
 use Spot\MapperInterface;
+use Data\Models\MVCModel;
 
 /**
  * Class Organization
@@ -14,7 +15,7 @@ use Spot\MapperInterface;
  * @property integer OrganizationId
  * @property string Name
  */
-class Organization extends Entity
+class Organization extends MVCModel
 {
 
     // Database Mapping
@@ -23,10 +24,12 @@ class Organization extends Entity
 
     public static function fields()
     {
-        return [
+        $fields = [
             "OrganizationId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
             "Name" => ['type' => 'string', 'required' => true, 'unique' => true]
         ];
+
+        return array_merge($fields, parent::fields());
     }
 
     public static function relations(MapperInterface $mapper, EntityInterface $entity)

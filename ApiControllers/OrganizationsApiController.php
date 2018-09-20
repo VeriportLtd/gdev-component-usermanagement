@@ -37,4 +37,19 @@ class OrganizationsApiController
         return OrganizationsDataManager::DeleteOrganization($organizationId);
     }
 
+    /**
+     * @param $start
+     * @param $length
+     * @param $columns
+     * @param $order
+     * @param $search
+     * @return \Business\DTO\DTDataDTO
+     */
+    public static function GetFilteredList($start, $length, $columns, $order, $search)
+    {
+        return OrganizationsDataManager::GetFilteredList($start, $length, $columns, $order, $search);
+
+    }
+
+
 }
