@@ -32,4 +32,10 @@ class OrganizationsDataManager
         return OrganizationsRepository::getInstance()->all()->count();
     }
 
+    public static function GetFilteredList($start, $length, $columns, $order, $search)
+    {
+        return OrganizationsRepository::GetFilteredList($start, $length, $columns, $order, $search);
+    }
+
+
 }

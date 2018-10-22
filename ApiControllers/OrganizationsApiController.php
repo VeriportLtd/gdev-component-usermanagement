@@ -18,7 +18,8 @@ class OrganizationsApiController
         return OrganizationsDataManager::GetOrganizations();
     }
 
-    public static function GetOrganizationsCount() {
+    public static function GetOrganizationsCount()
+    {
         return OrganizationsDataManager::GetOrganizationsCount();
     }
 
@@ -37,4 +38,8 @@ class OrganizationsApiController
         return OrganizationsDataManager::DeleteOrganization($organizationId);
     }
 
+    public static function GetFilteredList($start, $length, $columns, $order, $search)
+    {
+        return OrganizationsDataManager::GetFilteredList($start, $length, $columns, $order, $search);
+    }
 }

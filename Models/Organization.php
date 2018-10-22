@@ -13,7 +13,7 @@ use Spot\MapperInterface;
  * @property integer OrganizationId
  * @property string Name
  */
-class Organization extends Entity
+class Organization extends MVCModel
 {
 
     // Database Mapping
