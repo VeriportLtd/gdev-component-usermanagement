@@ -23,10 +23,11 @@ class Organization extends MVCModel
 
     public static function fields()
     {
-        return [
+        $fields = [
             "OrganizationId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
             "Name" => ['type' => 'string', 'required' => true, 'unique' => true]
         ];
+        return array_merge($fields, parent::fields());
     }
 
     public static function relations(MapperInterface $mapper, EntityInterface $entity)
