@@ -2,6 +2,7 @@
 
 namespace Gdev\UserManagement\Models;
 
+use Data\Models\MVCModel;
 use Spot\Entity;
 use Spot\EntityInterface;
 use Spot\MapperInterface;
