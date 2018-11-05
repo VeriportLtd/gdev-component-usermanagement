@@ -62,7 +62,7 @@ class UsersRepository extends BaseRepository
         $rc[] = new RequiredConditionDTO("users", "OrganizationId", $organizationId);
 
         if($notApprovedUsers){
-            $rc[] = new RequiredConditionDTO("users", "Approved", 1);
+            $rc[] = new RequiredConditionDTO("users", "Approved", 1, '!=');
         }
 
         $rcJoins = [];
