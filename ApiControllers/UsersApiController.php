@@ -26,11 +26,12 @@ class UsersApiController
      * @param $search
      * @param null $organizationId
      * @param null $roleWeight
+     * @param null $notApprovedUsers
      * @return \Business\DTO\DTDataDTO
      */
-    public static function GetFilteredList($start, $length, $columns, $order, $search, $organizationId = null, $roleWeight = null)
+    public static function GetFilteredList($start, $length, $columns, $order, $search, $organizationId = null, $roleWeight = null, $notApprovedUsers = false)
     {
-        return UsersDataManager::GetFilteredList($start, $length, $columns, $order, $search, $organizationId, $roleWeight);
+        return UsersDataManager::GetFilteredList($start, $length, $columns, $order, $search, $organizationId, $roleWeight, $notApprovedUsers);
 
     }
 

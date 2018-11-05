@@ -45,7 +45,7 @@ class UsersRepository extends BaseRepository
 
     }
 
-    public static function GetFilteredList($start, $length, $columns, $order, $search, $organizationId, $roleWeight)
+    public static function GetFilteredList($start, $length, $columns, $order, $search, $organizationId, $roleWeight, $notApprovedUsers)
     {
         $booleanColumns = [];
 
@@ -60,6 +60,11 @@ class UsersRepository extends BaseRepository
         $rc =[];
         $rc[] = new RequiredConditionDTO("r", "Weight", $roleWeight, ">=");
         $rc[] = new RequiredConditionDTO("users", "OrganizationId", $organizationId);
+
+        if($notApprovedUsers){
+            $rc[] = new RequiredConditionDTO("users", "Approved", 1);
+        }
+
         $rcJoins = [];
         if (!empty($roleWeight)) {
             $rcJoins[] = "INNER JOIN user_roles ur ON ur.UserId = users.UserId";
