@@ -25,6 +25,7 @@ use Spot\MapperInterface;
  * @property integer Gender
  * @property DateTime DateOfBirth
  * @property string Picture
+ *  @property DateTime LastLogin
  */
 class UserDetails extends Entity {
 
@@ -40,6 +41,7 @@ class UserDetails extends Entity {
             "Gender" => ['type' => 'integer'],
             "DateOfBirth" => ['type' => 'datetime'],
             "Picture" => ['type' => 'string'],
+            "LastLogin" => ['type' => 'datetime'],
         ];
     }
 
