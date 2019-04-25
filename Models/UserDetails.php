@@ -42,6 +42,7 @@ class UserDetails extends Entity {
             "DateOfBirth" => ['type' => 'datetime'],
             "Picture" => ['type' => 'string'],
             "LastLogin" => ['type' => 'datetime'],
+            "Logged" => ['type' => 'boolean', 'required' => false, 'default' => false]
         ];
     }
 
