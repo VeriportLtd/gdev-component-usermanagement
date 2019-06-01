@@ -49,6 +49,7 @@ class Invitation extends Entity
             'Sender' => $mapper->belongsTo($entity, 'Gdev\UserManagement\Models\User', 'SenderId'),
             'User' => $mapper->belongsTo($entity, 'Gdev\UserManagement\Models\User', 'RegisteredUserId'),
             'Roles' => $mapper->hasManyThrough($entity, 'Gdev\UserManagement\Models\Role', 'Gdev\UserManagement\Models\InvitationRole', 'RoleId', 'InvitationId'),
+            'Businesses' => $mapper->hasManyThrough($entity, 'Data\Models\Business', 'Data\Models\InvitationBusiness', 'BusinessId', 'InvitationId' )
         ];
     }
 
