@@ -28,6 +28,7 @@ use Spot\MapperInterface;
  * @property Bussiness[] Businesses
  * @property Thread[] Threads
  * @property Message[] Messages
+ * @property Panel[] Panels
  */
 class User extends MVCModel
 {
@@ -65,7 +66,7 @@ class User extends MVCModel
             "Businesses" => $mapper->hasManyThrough($entity, 'Data\Models\Business', 'Data\Models\UserBusiness', 'BusinessId', 'UserId'),
             "Threads" => $mapper->hasManyThrough($entity, "Data\Models\MessageThread", "Data\Models\UserThread", "ThreadId", "UserId")->order(["UpdatedAt" => "DESC"]),
             "LastFiveThreads" => $mapper->hasManyThrough($entity, "Data\Models\MessageThread", "Data\Models\UserThread", "ThreadId", "UserId")->order(["UpdatedAt" => "DESC"])->limit(5),
-            "Messages" => $mapper->hasManyThrough($entity, "Data\Models\Message", "Data\Models\UserMessage", "MessageId", "UserId")->order(["CreatedAt" => "DESC"])
-        ];
+            "Messages" => $mapper->hasManyThrough($entity, "Data\Models\Message", "Data\Models\UserMessage", "MessageId", "UserId")->order(["CreatedAt" => "DESC"]),
+            "Panels" => $mapper->hasMany($entity, Panel::class, 'UserId');];
     }
 }
