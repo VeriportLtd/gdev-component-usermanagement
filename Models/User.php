@@ -67,6 +67,7 @@ class User extends MVCModel
             "Threads" => $mapper->hasManyThrough($entity, "Data\Models\MessageThread", "Data\Models\UserThread", "ThreadId", "UserId")->order(["UpdatedAt" => "DESC"]),
             "LastFiveThreads" => $mapper->hasManyThrough($entity, "Data\Models\MessageThread", "Data\Models\UserThread", "ThreadId", "UserId")->order(["UpdatedAt" => "DESC"])->limit(5),
             "Messages" => $mapper->hasManyThrough($entity, "Data\Models\Message", "Data\Models\UserMessage", "MessageId", "UserId")->order(["CreatedAt" => "DESC"]),
+            "Panels" => $mapper->hasMany($entity, 'Data\Models\Panel', 'UserId')
         ];
     }
 }
