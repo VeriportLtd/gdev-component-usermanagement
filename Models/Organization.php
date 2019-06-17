@@ -2,6 +2,7 @@
 
 namespace Gdev\UserManagement\Models;
 
+use Business\Utilities\Config\Config;
 use Gdev\UserManagement\Components\UserManagementDependencyResolver;
 use Spot\Entity;
 use Spot\EntityInterface;
@@ -50,7 +51,7 @@ class Organization extends MVCModel
     public function PictureSource($thumb = null) {
         $config = Config::GetInstance();
 
-        if (!empty($this->Picture)) {
+        if (!empty($this->Logo)) {
             return sprintf("%sMedia/Organizations/%s%s", $config->cdn->url, empty($this->Logo) ? "" : $thumb . "/", $this->Logo);
         }
         return sprintf("%s/Content/organization-default.png", $config->cdn->url);
