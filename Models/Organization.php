@@ -14,6 +14,10 @@ use Data\Models\MVCModel;
  *
  * @property integer OrganizationId
  * @property string Name
+ * @property string Address
+ * @property string Phone
+ * @property string Website
+ * @property string Logo
  */
 class Organization extends MVCModel
 {
@@ -26,7 +30,11 @@ class Organization extends MVCModel
     {
         $fields = [
             "OrganizationId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
-            "Name" => ['type' => 'string', 'required' => true, 'unique' => true]
+            "Name" => ['type' => 'string', 'required' => true, 'unique' => true],
+            "Address" => ['type' => 'string'],
+            "Phone" => ['type' => 'string'],
+            "Website" => ['type' => 'string'],
+            "Logo" => ['type' => 'string']
         ];
 
         return array_merge($fields, parent::fields());
@@ -37,5 +45,18 @@ class Organization extends MVCModel
         return [
             'Users' => $mapper->hasMany($entity, UserManagementDependencyResolver::getInstance()->Resolve("User"), 'UserId'),
         ];
+    }
+
+    public function PictureSource($thumb = null) {
+        $config = Config::GetInstance();
+
+        if (!empty($this->Picture)) {
+            return sprintf("%sMedia/Organizations/%s%s", $config->cdn->url, empty($this->Logo) ? "" : $thumb . "/", $this->Logo);
+        }
+        return sprintf("%s/Content/organization-default.png", $config->cdn->url);
+    }
+
+    public function PicturePath($thumb = null) {
+        return sprintf("%sMedia/Organizations/%s%s", CDN_PATH, empty($this->Logo) ? "" : $thumb . "/", $this->Logo);
     }
 }
