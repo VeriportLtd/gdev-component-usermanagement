@@ -2,9 +2,7 @@
 
 namespace Gdev\UserManagement\Models;
 
-use Data\Models\BusinessGoogleSpreadsheet;
 use Data\Models\MVCModel;
-use Data\Models\UserToken;
 use DateTime;
 use Spot\Entity;
 use Spot\EntityInterface;
@@ -30,9 +28,6 @@ use Spot\MapperInterface;
  * @property Bussiness[] Businesses
  * @property Thread[] Threads
  * @property Message[] Messages
- * @property Panel[] Panels
- * @property UserToken[] UserToken
- * @property BusinessGoogleSpreadsheet[] BusinessGoogleSpreadsheet
  */
 class User extends MVCModel
 {
@@ -71,8 +66,6 @@ class User extends MVCModel
             "Threads" => $mapper->hasManyThrough($entity, "Data\Models\MessageThread", "Data\Models\UserThread", "ThreadId", "UserId")->order(["UpdatedAt" => "DESC"]),
             "LastFiveThreads" => $mapper->hasManyThrough($entity, "Data\Models\MessageThread", "Data\Models\UserThread", "ThreadId", "UserId")->order(["UpdatedAt" => "DESC"])->limit(5),
             "Messages" => $mapper->hasManyThrough($entity, "Data\Models\Message", "Data\Models\UserMessage", "MessageId", "UserId")->order(["CreatedAt" => "DESC"]),
-            'UserToken' => $mapper->hasMany($entity, UserToken::class, 'UserId'),
-            'BusinessGoogleSpreadsheet' => $mapper->hasMany($entity, BusinessGoogleSpreadsheet::class, 'UserId'),
         ];
     }
 }
