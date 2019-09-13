@@ -163,8 +163,9 @@ class UsersApiController
     {
         return UsersDataManager::GetAllUsers();
     }
-
-    public static function CreateUser(string $username, string $password, string $email, ?array $userRoles = null, ?int $organizationId = null, ?int $approved = 0, ?int $active = 0, ?int $userStatusId = null, ?string $statusMessage = null): ?User
+//string $username, string $password, string $email, ?array $userRoles = null, ?string $organizationId = null, ?string $approved = nu, ?int $active = 0, ?int $userStatusId = null, ?string $statusMessage = null
+//string $username, string $password, string $email, ?array $userRoles = null, ?int $organizationId = null, ?int $approved = 0, ?int $active = 0, ?int $userStatusId = null, ?string $statusMessage = null
+    public static function CreateUser(string $username, string $password, string $email, ?array $userRoles = null, ?string $organizationId = null, ?string $approved = null, ?int $active = 0, ?int $userStatusId = null, ?string $statusMessage = null): ?User
     {
         $user = new User();
         $user->Email = $email;
