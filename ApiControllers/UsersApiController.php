@@ -175,6 +175,9 @@ class UsersApiController
         $user->Approved = $approved;
         $user->Active = $active;
 
+        $organizationId = empty($organizationId) ? null : $organizationId;
+        $statusMessage = empty($statusMessage) ? null : $statusMessage;
+
         // checking organization
         if ($organizationId !== null) {
             if (!\Security::IsSuperAdmin()) {
@@ -205,7 +208,7 @@ class UsersApiController
                 $userStatusModel->UserId = $userId;
                 $userStatusModel->UserStatusTypeId = $userStatusId;
                 $userStatusModel->DateFrom = new \DateTime();
-                $userStatusModel->Message = $statusMessage !== null ? $statusMessage : $userStatusModel->Message = 'No Message';
+                $userStatusModel->Message = $statusMessage ?: 'No Message';
                 $status = UserStatusesApiController::InsertUserStatus($userStatusModel) && $status;
             }
         }
