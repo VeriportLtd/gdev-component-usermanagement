@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nikola
- * Date: 9.6.16.
- * Time: 19.19
- */
 
 namespace Gdev\UserManagement\ApiControllers;
 
@@ -14,10 +8,18 @@ use Business\Security\Users;
 use Business\Enums\PermissionsEnum;
 use Gdev\UserManagement\DataManagers\UserDetailsDataManager;
 use Gdev\UserManagement\DataManagers\UsersDataManager;
+use Gdev\UserManagement\Models\ConfirmationLink;
 use Gdev\UserManagement\Models\User;
 use Gdev\UserManagement\Models\UserDetails;
 use Gdev\UserManagement\Models\UserRole;
 use Gdev\UserManagement\Models\UserStatus;
+use Business\Middleware\MailNotifications\MailNotificationDto;
+use Business\Middleware\MailNotifications\MailNotificationFactory;
+use View\Mail\UserRegisterMailView;
+use ViewModel\Mail\UserRegisterMailViewModel;
+use Business\DTO\SenderDTO;
+use Business\DTO\RecipientDTO;
+use Business\Utilities\Config\Config;
 
 class UsersApiController
 {
@@ -218,16 +220,51 @@ class UsersApiController
     public static function CreateUserDetails(int $userId, string $firstName, string $lastName, ?string $dateOfBirth = null, ?int $gender = null, ?string $picture = null): bool
     {
         $userDetails = new UserDetails();
-
         $userDetails->FirstName = $firstName;
         $userDetails->LastName = $lastName;
         $userDetails->DateOfBirth = $dateOfBirth ? \DateTime::createFromFormat('m/d/Y', $dateOfBirth) : null;
+        $userDetails->UserId = $userId;
         /*    $userDetails->Gender = $gender && in_array($gender, GendersEnum::enum(), true) ? $gender : null;
             $userDetails->Picture = $picture;*/
-        $userDetails->UserId = $userId;
-
         return UsersApiController::InsertUserDetails($userDetails) > 0;
+    }
 
+    public static function CreateConfirmationLink(int $userId): ConfirmationLink
+    {
+        $confirmationLink = new ConfirmationLink();
+        $confirmationLink->UserId = $userId;
+        $confirmationLink->Token = bin2hex(openssl_random_pseudo_bytes(8));
+
+        $date = new \DateTime();
+        $date->modify('+30 days');
+        $confirmationLink->ExpirationDate = $date;
+
+        ConfirmationLinksApiController::InsertConfirmationLink($confirmationLink);
+
+        return $confirmationLink;
+    }
+
+    public static function SendConfirmationMail(User $user): bool
+    {
+        $userDetails = $user->Details->entity();
+        $confirmationLink = UsersApiController::CreateConfirmationLink($user->UserId);
+
+        $mailModel = new UserRegisterMailViewModel();
+        // generate mail content
+        $mailModel->Name = $userDetails->FirstName;
+        $mailModel->ConfirmationLink = $confirmationLink->Token;
+        $mailModel->ExpirationDate = $confirmationLink->ExpirationDate;
+
+        $view = new UserRegisterMailView($mailModel);
+        $config = Config::GetInstance();
+        $mailNotificationFactory = new MailNotificationFactory();
+        return $mailNotificationFactory->createMailNotification()->send(new MailNotificationDto(
+            'Welcome to BizBot!',
+            $view->Render(false),
+            'Your account for BizBot website has been created',
+            [new SenderDTO('BizBot', $config->smtp->from)],
+            [new RecipientDTO(sprintf('%s %s', $userDetails->FirstName, $userDetails->LastName), $user->Email)]
+        ));
     }
 
 
