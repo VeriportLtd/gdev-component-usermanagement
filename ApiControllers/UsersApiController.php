@@ -244,7 +244,7 @@ class UsersApiController
         return $confirmationLink;
     }
 
-    public static function SendConfirmationMail(User $user): bool
+    public static function SendConfirmationMail(User $user):void
     {
         $userDetails = $user->Details->entity();
         $confirmationLink = UsersApiController::CreateConfirmationLink($user->UserId);
@@ -258,7 +258,7 @@ class UsersApiController
         $view = new UserRegisterMailView($mailModel);
         $config = Config::GetInstance();
         $mailNotificationFactory = new MailNotificationFactory();
-        return $mailNotificationFactory->createMailNotification()->send(new MailNotificationDto(
+        $mailNotificationFactory->createMailNotification()->send(new MailNotificationDto(
             'Welcome to BizBot!',
             $view->Render(false),
             'Your account for BizBot website has been created',
