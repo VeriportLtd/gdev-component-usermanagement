@@ -174,7 +174,7 @@ class UsersApiController
         $user->Password = Crypt::HashPassword($password);
         $user->UserName = $username;
         $user->RegistrationDate = new \DateTime();
-        $user->Approved = $approved;
+        $user->Approved = (int)$approved;
         $user->Active = $active;
 
         $organizationId = empty($organizationId) ? null : $organizationId;
