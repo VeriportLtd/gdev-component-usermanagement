@@ -259,10 +259,10 @@ class UsersApiController
         $config = Config::GetInstance();
         $mailNotificationFactory = new MailNotificationFactory();
         $mailNotificationFactory->createMailNotification()->send(new MailNotificationDto(
-            'Welcome to BizBot!',
+            'Welcome to OrthoStart!',
             $view->Render(false),
-            'Your account for BizBot website has been created',
-            [new SenderDTO('BizBot', $config->smtp->from)],
+            'Your account for OrthoStart website has been created',
+            [new SenderDTO('OrthoStart', $config->smtp->from)],
             [new RecipientDTO(sprintf('%s %s', $userDetails->FirstName, $userDetails->LastName), $user->Email)]
         ));
     }
