@@ -22,6 +22,7 @@ use Spot\MapperInterface;
  * @property integer UserId
  * @property string FirstName
  * @property string LastName
+ * @property string Phone
  * @property integer Gender
  * @property DateTime DateOfBirth
  * @property string Picture
@@ -41,7 +42,8 @@ class UserDetails extends Entity {
             "Gender" => ['type' => 'integer'],
             "DateOfBirth" => ['type' => 'datetime'],
             "Picture" => ['type' => 'string'],
-            "LastLogin" => ['type' => 'datetime']
+            "LastLogin" => ['type' => 'datetime'],
+            "Phone" => ['type' => 'string', 'required' => true],
         ];
     }
 
