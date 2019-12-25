@@ -217,7 +217,7 @@ class UsersApiController
         return $status ? $user : null;
     }
 
-    public static function CreateUserDetails(int $userId, string $firstName, string $lastName, ?string $dateOfBirth = null, ?int $gender = null, ?string $picture = null): bool
+    public static function CreateUserDetails(int $userId, string $firstName, string $lastName,string $userPhoneNumber,?string $dateOfBirth = null, ?int $gender = null, ?string $picture = null): bool
     {
         $userDetails = new UserDetails();
         $userDetails->FirstName = $firstName;
