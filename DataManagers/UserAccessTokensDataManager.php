@@ -36,7 +36,6 @@ class UserAccessTokensDataManager
         if ($token instanceof UserAccessToken) {
             $token->EndDate = new DateTime();
             return UserAccessTokensRepository::getInstance()->save($token);
-
         }
 
         return null;

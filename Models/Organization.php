@@ -25,7 +25,7 @@ class Organization extends MVCModel
     {
         $fields = [
             "OrganizationId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
-            "Name" => ['type' => 'string', 'required' => true, 'unique' => true]
+            "Name" => ['type' => 'string', 'required' => true]
         ];
         return array_merge($fields, parent::fields());
     }

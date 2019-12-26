@@ -217,13 +217,14 @@ class UsersApiController
         return $status ? $user : null;
     }
 
-    public static function CreateUserDetails(int $userId, string $firstName, string $lastName,string $userPhoneNumber,?string $dateOfBirth = null, ?int $gender = null, ?string $picture = null): bool
+    public static function CreateUserDetails(int $userId, string $firstName, string $lastName,string $phone,?string $dateOfBirth = null, ?int $gender = null, ?string $picture = null): bool
     {
         $userDetails = new UserDetails();
         $userDetails->FirstName = $firstName;
         $userDetails->LastName = $lastName;
         $userDetails->DateOfBirth = $dateOfBirth ? \DateTime::createFromFormat('m/d/Y', $dateOfBirth) : null;
         $userDetails->UserId = $userId;
+        $userDetails->Phone = $phone;
         /*    $userDetails->Gender = $gender && in_array($gender, GendersEnum::enum(), true) ? $gender : null;
             $userDetails->Picture = $picture;*/
         return UsersApiController::InsertUserDetails($userDetails) > 0;
