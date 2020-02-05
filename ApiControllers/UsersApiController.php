@@ -249,8 +249,8 @@ class UsersApiController
     {
         $userDetails = $user->Details->entity();
         $confirmationLink = UsersApiController::CreateConfirmationLink($user->UserId);
-
-        $mailModel = new UserRegisterMailViewModel();
+        $emailBannerUrl = $user->getEmailBanner();
+        $mailModel = new UserRegisterMailViewModel($emailBannerUrl);
         // generate mail content
         $mailModel->Name = $userDetails->FirstName;
         $mailModel->ConfirmationLink = $confirmationLink->Token;

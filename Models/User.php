@@ -2,6 +2,8 @@
 
 namespace Gdev\UserManagement\Models;
 
+use Data\Models\Business;
+use Data\Models\BusinessTypeCustomDetails;
 use Data\Models\MVCModel;
 use DateTime;
 use Spot\Entity;
@@ -69,5 +71,39 @@ class User extends MVCModel
             "Messages" => $mapper->hasManyThrough($entity, "Data\Models\Message", "Data\Models\UserMessage", "MessageId", "UserId")->order(["CreatedAt" => "DESC"]),
             "Panels" => $mapper->hasMany($entity, 'Data\Models\Panel', 'UserId')
         ];
+    }
+
+    /**
+     * @return BusinessType|null
+     */
+    public function getBusinessType()
+    {
+
+        $firstBusiness = $this->getBusiness();
+        if ($firstBusiness) {
+            return $firstBusiness->BusinessType->entity();
+        }
+        return null;
+    }
+
+    /**
+     * @return Bussiness|null
+     */
+    public function getBusiness()
+    {
+        return count($this->Businesses) ? $this->Businesses[0] : null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEmailBanner() {
+        /** @var BusinessTypeCustomDetails|null $businessTypeCustomDetails */
+        $businessTypeCustomDetails = $this->getBusiness()->getBusinessTypeCustomDetails();
+        $logoUrl = null;
+        if ($businessTypeCustomDetails && !empty($businessTypeCustomDetails->EmailBanner)) {
+            $logoUrl = $businessTypeCustomDetails->getEmailBannerUrl();
+        }
+        return $logUrl;
     }
 }
