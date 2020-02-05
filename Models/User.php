@@ -100,15 +100,17 @@ class User extends MVCModel
     public function getEmailBanner()
     {
         /** @var BusinessTypeCustomDetails|null $businessTypeCustomDetails */
-        $businessTypeCustomDetails = $this->getBusiness()->getBusinessTypeCustomDetails();
-        $emailBannerUrl = null;
-        $this->LogoUrl = $businessType->BusinessTypeCustomDetails->getEmailBannerUrl();
-        if ($businessTypeCustomDetails && !empty($businessTypeCustomDetails->EmailBanner)) {
-            $emailBannerPath = $businessTypeCustomDetails->getEmailBannerPath();
-            if (is_readable($emailBannerPath) && is_file($emailBannerPath)) {
-                $emailBannerUrl = $businessTypeCustomDetails->getEmailBannerUrl();
+        if ($this->getBusiness()) {
+            $businessTypeCustomDetails = $this->getBusiness()->getBusinessTypeCustomDetails();
+            $emailBannerUrl = null;
+            $this->LogoUrl = $businessTypeCustomDetails->getEmailBannerUrl();
+            if ($businessTypeCustomDetails && !empty($businessTypeCustomDetails->EmailBanner)) {
+                $emailBannerPath = $businessTypeCustomDetails->getEmailBannerPath();
+                if (is_readable($emailBannerPath) && is_file($emailBannerPath)) {
+                    $emailBannerUrl = $businessTypeCustomDetails->getEmailBannerUrl();
+                }
             }
+            return $emailBannerUrl;
         }
-        return $emailBannerUrl;
     }
 }
