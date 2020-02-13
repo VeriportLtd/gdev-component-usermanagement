@@ -20,8 +20,8 @@ use Spot\MapperInterface;
  * @property string Email
  * @property string Password
  * @property string FbAccessToken
- * @property integer Active
- * @property integer Approved
+ * @property boolean Active
+ * @property boolean Approved
  * @property integer OrganizationId
  * @property UserDetails Details
  * @property Organization Organization
@@ -49,8 +49,8 @@ class User extends MVCModel
             "Email" => ['type' => 'string', 'required' => true, 'unique' => true],
             "Password" => ['type' => 'string', 'required' => true],
             "FbAccessToken" => ['type' => 'text', 'required' => false],
-            "Active" => ['type' => 'integer', 'required' => false],
-            "Approved" => ['type' => 'integer', 'required' => false],
+            "Active" => ['type' => 'boolean', 'required' => false, 'default' => false],
+            "Approved" => ['type' => 'boolean', 'required' => false, 'default' => false],
         ];
         return array_merge($fields, parent::fields());
     }
