@@ -26,38 +26,43 @@ use Spot\MapperInterface;
  * @property integer Gender
  * @property DateTime DateOfBirth
  * @property string Picture
- *  @property DateTime LastLogin
+ * @property DateTime LastLogin
  */
-class UserDetails extends Entity {
+class UserDetails extends Entity
+{
 
     // Database Mapping
     protected static $table = "user_details";
 
-    public static function fields() {
+    public static function fields()
+    {
         return [
             "UserDetailsId" => ['type' => 'integer', 'primary' => true, 'autoincrement' => true],
             "UserId" => ['type' => 'integer', 'required' => true, 'unique' => true],
             "FirstName" => ['type' => 'string', 'required' => true],
             "LastName" => ['type' => 'string', 'required' => true],
             "Gender" => ['type' => 'integer'],
-            "DateOfBirth" => ['type' => 'datetime'],
+            "DateOfBirth" => ['type' => 'datetime', 'required' => false, 'default' => null],
             "Picture" => ['type' => 'string'],
             "LastLogin" => ['type' => 'datetime'],
             "Phone" => ['type' => 'string', 'required' => true],
         ];
     }
 
-    public static function relations(MapperInterface $mapper, EntityInterface $entity) {
+    public static function relations(MapperInterface $mapper, EntityInterface $entity)
+    {
         return [
             'User' => $mapper->belongsTo($entity, 'Gdev\UserManagement\Models\User', 'UserId'),
         ];
     }
 
-    public function DisplayFullName() {
+    public function DisplayFullName()
+    {
         return sprintf("%s %s", $this->FirstName, $this->LastName);
     }
 
-    public function PictureSource($thumb = null) {
+    public function PictureSource($thumb = null)
+    {
         $config = Config::GetInstance();
 
         if (!empty($this->Picture)) {
@@ -66,7 +71,8 @@ class UserDetails extends Entity {
         return sprintf("%s/Content/user-default.png", $config->cdn->url);
     }
 
-    public function PicturePath($thumb = null) {
+    public function PicturePath($thumb = null)
+    {
         return sprintf("%sMedia/Users/%s%s", CDN_PATH, empty($this->Picture) ? "" : $thumb . "/", $this->Picture);
     }
 

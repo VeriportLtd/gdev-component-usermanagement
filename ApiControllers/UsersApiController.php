@@ -167,17 +167,30 @@ class UsersApiController
     }
 //string $username, string $password, string $email, ?array $userRoles = null, ?string $organizationId = null, ?string $approved = nu, ?int $active = 0, ?int $userStatusId = null, ?string $statusMessage = null
 //string $username, string $password, string $email, ?array $userRoles = null, ?int $organizationId = null, ?int $approved = 0, ?int $active = 0, ?int $userStatusId = null, ?string $statusMessage = null
-    public static function CreateUser(string $username, string $password, string $email, ?array $userRoles = null, ?string $organizationId = null, ?string $approved = null, ?int $active = 0, ?int $userStatusId = null, ?string $statusMessage = null): ?User
+    public static function SaveUser(string $username, string $password, string $email, ?array $userRoles = null, ?string $organizationId = null, ?bool $approved = false, ?bool $active = false, ?string $userStatusId = null, ?string $statusMessage = null, int $userId = null): ?User
     {
-        $user = new User();
+        if ($userId !== null) {
+            $user = UsersApiController::GetUserByUserName($username);
+            if (!$user) {
+                return null;
+            }
+        } else {
+            $user = new User();
+        }
         $user->Email = $email;
-        $user->Password = Crypt::HashPassword($password);
+        if ($userId !== null) {
+            if (!empty($password)) {
+                $user->Password = Crypt::HashPassword($password);
+            }
+        } else {
+            $user->Password = Crypt::HashPassword($password);
+        }
         $user->UserName = $username;
         $user->RegistrationDate = new \DateTime();
-        $user->Approved = (int)$approved;
+        $user->Approved = $approved;
         $user->Active = $active;
 
-        $organizationId = empty($organizationId) ? null : $organizationId;
+        $organizationId = empty($organizationId) ? null : (int)$organizationId;
         $statusMessage = empty($statusMessage) ? null : $statusMessage;
 
         // checking organization
@@ -188,46 +201,63 @@ class UsersApiController
             }
         }
         $user->OrganizationId = $organizationId;
-        $status = true;
-        $userId = UsersApiController::InsertUser($user);
-        $status = $status && $userId > 0;
+        $status = UsersApiController::InsertUser($user) > 0;
 
         if ($status) {
-            $userId = (int)$userId;
-            if ($userRoles !== null) {
+            $oldRoles = UserRolesApiController::GetUserRoles($user->UserId);
+            if (!empty($userRoles)) {
+                $oldRoleTypes = [];
+                if ($oldRoles->count() > 0) {
+                    $oldRoleTypes = $oldRoles->toArray('RoleId');
+                    $rolesToBeDeleted = array_diff($oldRoleTypes, $userRoles);
+                    if (!empty($rolesToBeDeleted)) {
+                        $status = $status && UserRolesApiController::DeleteRoles(['UserId' => $user->UserId, 'RoleId' => array_values($rolesToBeDeleted)]) >= 0;
+                    }
+                }
+
+                $roles=RolesApiController::GetRoles()->toArray('RoleId');
                 foreach ($userRoles as $userRoleId) {
                     $userRoleId = (int)$userRoleId;
-                    if (in_array($userRoleId, RolesEnum::enum(), true)) {
+                    if (in_array($userRoleId, $roles, true) && !in_array($userRoleId, $oldRoleTypes, true)) {
                         $userRoleModel = new UserRole();
-                        $userRoleModel->UserId = $userId;
+                        $userRoleModel->UserId = $user->UserId;
                         $userRoleModel->RoleId = $userRoleId;
                         $status = UserRolesApiController::InsertUserRole($userRoleModel) && $status;
                     }
                 }
+            } else if ($oldRoles->count() > 0) {
+                $status = $status && UserRolesApiController::DeleteRoles(['UserId' => $user->UserId]) >= 0;
             }
-            if ($userStatusId !== null) {
+            if (!empty($userStatusId)) {
+                $currentUserStatus = UserStatusesApiController::GetCurrentUserStatus($user->UserId);
                 $userStatusModel = new UserStatus();
-                $userStatusModel->UserId = $userId;
-                $userStatusModel->UserStatusTypeId = $userStatusId;
+                $userStatusModel->UserId = $user->UserId;
+                $userStatusModel->UserStatusTypeId = (int)$userStatusId;
                 $userStatusModel->DateFrom = new \DateTime();
                 $userStatusModel->Message = $statusMessage ?: 'No Message';
-                $status = UserStatusesApiController::InsertUserStatus($userStatusModel) && $status;
+                $status = $status && UserStatusesApiController::InsertUserStatus($userStatusModel);
+                if ($currentUserStatus && $status) {
+                    $currentUserStatus->DateTo = new \DateTime();
+                    $status = $status && UserStatusesApiController::UpdateUserStatus($currentUserStatus);
+                }
             }
         }
         return $status ? $user : null;
     }
 
-    public static function CreateUserDetails(int $userId, string $firstName, string $lastName,string $phone,?string $dateOfBirth = null, ?int $gender = null, ?string $picture = null): bool
+    public static function SaveUserDetails(User $user, string $firstName, string $lastName, string $phone, ?string $dateOfBirth = null, ?int $gender = null, ?string $picture = null): bool
     {
-        $userDetails = new UserDetails();
+        $userDetails = $user->Details->entity();
+        if (!$userDetails) {
+            $userDetails = new UserDetails();
+        }
         $userDetails->FirstName = $firstName;
         $userDetails->LastName = $lastName;
-        $userDetails->DateOfBirth = $dateOfBirth ? \DateTime::createFromFormat('m/d/Y', $dateOfBirth) : null;
-        $userDetails->UserId = $userId;
+        $userDetails->DateOfBirth = !empty($dateOfBirth) ? \DateTime::createFromFormat('m/d/Y', $dateOfBirth) : null;
+        $userDetails->UserId = $user->UserId;
         $userDetails->Phone = $phone;
-        /*    $userDetails->Gender = $gender && in_array($gender, GendersEnum::enum(), true) ? $gender : null;
-            $userDetails->Picture = $picture;*/
-        return UsersApiController::InsertUserDetails($userDetails) > 0;
+
+        return UsersApiController::InsertUserDetails($userDetails);
     }
 
     public static function CreateConfirmationLink(int $userId): ConfirmationLink
@@ -245,7 +275,7 @@ class UsersApiController
         return $confirmationLink;
     }
 
-    public static function SendConfirmationMail(User $user):void
+    public static function SendConfirmationMail(User $user): void
     {
         $userDetails = $user->Details->entity();
         $confirmationLink = UsersApiController::CreateConfirmationLink($user->UserId);
