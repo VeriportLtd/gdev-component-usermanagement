@@ -215,7 +215,7 @@ class UsersApiController
                     }
                 }
 
-                $roles=RolesApiController::GetRoles()->toArray('RoleId');
+                $roles = RolesApiController::GetRoles()->toArray('RoleId');
                 foreach ($userRoles as $userRoleId) {
                     $userRoleId = (int)$userRoleId;
                     if (in_array($userRoleId, $roles, true) && !in_array($userRoleId, $oldRoleTypes, true)) {
@@ -257,7 +257,7 @@ class UsersApiController
         $userDetails->UserId = $user->UserId;
         $userDetails->Phone = $phone;
 
-        return UsersApiController::InsertUserDetails($userDetails);
+        return UsersApiController::InsertUserDetails($userDetails) !== false;
     }
 
     public static function CreateConfirmationLink(int $userId): ConfirmationLink
