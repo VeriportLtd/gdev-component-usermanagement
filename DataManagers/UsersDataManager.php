@@ -42,7 +42,7 @@ class UsersDataManager
 
     public static function GetNotApprovedUsers($offset = null, $limit = null, $organizationId = null)
     {
-        $wheres = ['Approved' => null];
+        $wheres = ['Approved' => false];
         if (!is_null($organizationId)) {
             $wheres['OrganizationId'] = $organizationId;
         }
