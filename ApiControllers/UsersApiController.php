@@ -117,10 +117,10 @@ class UsersApiController
         return UsersDataManager::GetUserByEmail($email);
     }
 
-    public static function Login($email = null, $password = null, $token = null)
+    public static function Login($username = null, $password = null, $token = null)
     {
         if ($token == null) {
-            return Users::Login($email, $password);
+            return Users::Login($username, $password);
         } else {
             return Users::LoginWithToken($token);
         }
