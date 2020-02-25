@@ -196,7 +196,7 @@ class UsersApiController
         // checking organization
         if ($organizationId !== null) {
             if (!\Security::IsSuperAdmin()) {
-                $currentUser = UsersApiController::GetUserById(Security::GetCurrentUser()->UserId);
+                $currentUser = UsersApiController::GetUserById(\Security::GetCurrentUser()->UserId);
                 $organizationId = $currentUser->OrganizationId;
             }
         }
