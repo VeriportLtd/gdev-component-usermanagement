@@ -32,6 +32,7 @@ class UsersApiController
      * @param $search
      * @param null $organizationId
      * @param null $roleWeight
+     *
      * @return \Business\DTO\DTDataDTO
      */
     public static function GetFilteredList($start, $length, $columns, $order, $search, $organizationId = null, $roleWeight = null)
@@ -57,6 +58,7 @@ class UsersApiController
 
     /**
      * @param [] $businesses
+     *
      * @return int[]
      */
     public static function GetUsersWithAbilityToViewLiveChat($businesses)
@@ -75,6 +77,7 @@ class UsersApiController
 
     /**
      * @param $userId
+     *
      * @return User
      */
     public static function GetUserById($userId)
@@ -84,6 +87,7 @@ class UsersApiController
 
     /**
      * @param $userName
+     *
      * @return User
      */
     public static function GetUserByUserName($userName)
@@ -161,8 +165,7 @@ class UsersApiController
     {
         return UsersDataManager::GetAllUsers();
     }
-//string $username, string $password, string $email, ?array $userRoles = null, ?string $organizationId = null, ?string $approved = nu, ?int $active = 0, ?int $userStatusId = null, ?string $statusMessage = null
-//string $username, string $password, string $email, ?array $userRoles = null, ?int $organizationId = null, ?int $approved = 0, ?int $active = 0, ?int $userStatusId = null, ?string $statusMessage = null
+
     public static function SaveUser(string $username, string $password, string $email, ?array $userRoles = null, ?string $organizationId = null, ?bool $approved = false, ?bool $active = false, ?string $userStatusId = null, ?string $statusMessage = null, int $userId = null): ?User
     {
         if ($userId !== null) {
@@ -221,7 +224,7 @@ class UsersApiController
                         $status = UserRolesApiController::InsertUserRole($userRoleModel) && $status;
                     }
                 }
-            } else if ($oldRoles->count() > 0) {
+            } elseif ($oldRoles->count() > 0) {
                 $status = $status && UserRolesApiController::DeleteRoles(['UserId' => $user->UserId]) >= 0;
             }
             if (!empty($userStatusId)) {

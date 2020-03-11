@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milan
- * Date: 10.6.2016.
- * Time: 16.02
- */
 
 namespace Gdev\UserManagement\Models;
 
@@ -24,23 +18,23 @@ use Spot\MapperInterface;
  */
 class Permission extends Entity
 {
-	// Database Mapping
-	protected static $table = "permissions";
+    // Database Mapping
+    protected static $table = 'permissions';
 
-	public static function fields()
-	{
-		return [
-			"PermissionId" => ['type' => 'integer', 'primary' => true],
-			"Caption" => ['type' => 'string', 'required' => true],
-			"Description" => ['type' => 'string', 'required' => true]
-		];
-	}
+    public static function fields()
+    {
+        return [
+            'PermissionId' => ['type' => 'integer', 'primary' => true],
+            'Caption' => ['type' => 'string', 'required' => true],
+            'Description' => ['type' => 'string', 'required' => true],
+        ];
+    }
 
-	public static function relations(MapperInterface $mapper, EntityInterface $entity)
-	{
-		return [
-			'PermissionDescriptions' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\PermissionDescription', 'PermissionId'),
-			'RolePermissions' => $mapper->hasMany($entity, 'Gdev\UserManagement\Models\Permission', 'PermissionId'),
-		];
-	}
+    public static function relations(MapperInterface $mapper, EntityInterface $entity)
+    {
+        return [
+            'PermissionDescriptions' => $mapper->hasMany($entity, PermissionDescription::class, 'PermissionId'),
+            'RolePermissions' => $mapper->hasMany($entity, RolePermission::class, 'PermissionId')
+        ];
+    }
 }
