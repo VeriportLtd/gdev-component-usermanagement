@@ -17,9 +17,9 @@ use Security;
 class RolesApiController
 {
 
-    public static function GetRoles($offset = null, $limit = null, $organizationId = null, $weight = null)
+    public static function GetRoles($offset = null, $limit = null, $organizationId = null, $weight = null,$conditions=[])
     {
-        return RolesDataManager::GetRoles($offset, $limit, $organizationId, $weight);
+        return RolesDataManager::GetRoles($offset, $limit, $organizationId, $weight,$conditions);
     }
 
     public static function InsertRole($model)
@@ -58,48 +58,26 @@ class RolesApiController
             $organizationId = $currentUser->OrganizationId;
         }
         $role->OrganizationId = $organizationId;
-        $success = self::InsertRole($role);
-        if (!empty($permissionIds)) {
+        $success = self::InsertRole($role)>=0;
+
+        if ($success) {
+            $oldRolePermissions = RolePermissionsApiController::GetRolePermissions($role->RoleId);
+            if ($oldRolePermissions->count() > 0) {
+                foreach ($oldRolePermissions as $oldRolePermission) {
+                    RolePermissionsApiController::DeleteRolesPermission($oldRolePermission->RolePermissionId);
+                }
+            }
+
             foreach ($permissionIds as $permissionId) {
                 $rolePermissionModel = new RolePermission();
                 $rolePermissionModel->PermissionId = $permissionId;
-                $rolePermissionModel->RoleId = $roleId;
+                $rolePermissionModel->RoleId = $role->RoleId;
                 $success = $success && RolePermissionsApiController::InsertRolesPermission($rolePermissionModel);
             }
-        }
-
-        $oldRolePermissions = RolePermissionsApiController::GetRolePermissions($roleId);
-        $oldRolePermissionTypes = [];
-
-        if ($permissionIds != null) {
-            if ($oldRolePermissions != null) {
-                foreach ($oldRolePermissions as $oldRolePermission) {
-                    $oldRolePermissionTypes[] = $oldRolePermission->PermissionId;
-                    if (!in_array($oldRolePermission->PermissionId, $permissionIds, false)) {
-                        RolePermissionsApiController::DeleteRolesPermission($oldRolePermission->RolePermissionId);
-                    }
-                }
-            }
-
-            foreach ($permissionIds as $permissionId) {
-                $rolePermissionModel = new RolePermission();
-                $rolePermissionModel->PermissionId = $permissionId;
-                $rolePermissionModel->RoleId = $roleId;
-                $rolePermissionModel->Protected = 1;
-                if (count($oldRolePermissions) > 0) {
-                    if (!in_array($permissionId, $oldRolePermissionTypes, false)) {
-                        RolePermissionsApiController::InsertRolesPermission($rolePermissionModel);
-                    }
-                } else {
-                    RolePermissionsApiController::InsertRolesPermission($rolePermissionModel);
-                }
-            }
-        } else {
-            foreach ($oldRolePermissions as $oldRolePermission) {
-                RolePermissionsApiController::DeleteRolesPermission($oldRolePermission->RolePermissionId);
+            if (!$success) {
+                self::DeleteRole($role->RoleId);
             }
         }
-
 
         return $success ? $role : null;
     }

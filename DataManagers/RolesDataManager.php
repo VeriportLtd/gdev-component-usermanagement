@@ -7,16 +7,19 @@ use Gdev\UserManagement\Repositories\RolesRepository;
 class RolesDataManager
 {
 
-    public static function GetRoles($offset = null, $limit = null, $organizationId = null,$weight)
+    public static function GetRoles($offset = null, $limit = null, $organizationId = null, $weight = null, $conditions = [])
     {
         $wheres = [];
-        if (!is_null($organizationId)) {
-            $wheres["OrganizationId"] = $organizationId;
+        if ($organizationId !== null) {
+            $wheres['OrganizationId'] = $organizationId;
         }
-        if (!is_null($weight)){
-            $wheres["Weight >="] = $weight;
+        if ($weight !== null) {
+            $wheres['Weight >='] = $weight;
         }
-        return RolesRepository::getInstance()->all()->with(["Permissions", "UserRoles"])->where($wheres)->limit($limit, $offset);
+        if (!empty($conditions)) {
+            $wheres = array_merge($wheres, $conditions);
+        }
+        return RolesRepository::getInstance()->all()->with(['Permissions', 'UserRoles'])->where($wheres)->limit($limit, $offset);
     }
 
     public static function InsertRole($model)

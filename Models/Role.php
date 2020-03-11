@@ -23,6 +23,7 @@ use Spot\MapperInterface;
 class Role extends Entity
 {
 
+    public const SUPER_ADMIN_ROLE_ID = 1;
     // Database Mapping
     protected static $table = 'roles';
 
@@ -45,5 +46,11 @@ class Role extends Entity
             'UserRoles' => $mapper->hasMany($entity, UserRole::class, 'UserId'),
             'Organization' => $mapper->belongsTo($entity, Organization::class, 'OrganizationId'),
         ];
+    }
+
+
+    public function isSuperAdminRole(): bool
+    {
+        return $this->RoleId === $this::SUPER_ADMIN_ROLE_ID;
     }
 }
