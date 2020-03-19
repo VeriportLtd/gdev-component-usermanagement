@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nikola
- * Date: 9.6.16.
- * Time: 19.19
- */
 
 namespace Gdev\UserManagement\ApiControllers;
 
@@ -17,9 +11,9 @@ use Security;
 class RolesApiController
 {
 
-    public static function GetRoles($offset = null, $limit = null, $organizationId = null, $weight = null,$conditions=[])
+    public static function GetRoles($offset = null, $limit = null, $organizationId = null, $weight = null, $conditions = [])
     {
-        return RolesDataManager::GetRoles($offset, $limit, $organizationId, $weight,$conditions);
+        return RolesDataManager::GetRoles($offset, $limit, $organizationId, $weight, $conditions);
     }
 
     public static function InsertRole($model)
@@ -46,36 +40,37 @@ class RolesApiController
     {
 
         $role = $roleId !== null ? self::GetRoleById($roleId) : new Role();
+        if ($role) {
+            $role->Name = $name;
+            $role->Active = !empty($active);
+            $role->Protected = !empty($protected);
+            $role->Weight = $weight;
 
-        $role->Name = $name;
-        $role->Active = !empty($active);
-        $role->Protected = !empty($protected);
-        $role->Weight = $weight;
+            // checking organization
+            if ($organizationId === null && !Security::IsSuperAdmin()) {
+                $currentUser = UsersApiController::GetUserById(Security::GetCurrentUser()->UserId);
+                $organizationId = $currentUser->OrganizationId;
+            }
+            $role->OrganizationId = $organizationId;
+            $success = self::InsertRole($role) >= 0;
 
-        // checking organization
-        if ($organizationId === null && !Security::IsSuperAdmin()) {
-            $currentUser = UsersApiController::GetUserById(Security::GetCurrentUser()->UserId);
-            $organizationId = $currentUser->OrganizationId;
-        }
-        $role->OrganizationId = $organizationId;
-        $success = self::InsertRole($role)>=0;
-
-        if ($success) {
-            $oldRolePermissions = RolePermissionsApiController::GetRolePermissions($role->RoleId);
-            if ($oldRolePermissions->count() > 0) {
-                foreach ($oldRolePermissions as $oldRolePermission) {
-                    RolePermissionsApiController::DeleteRolesPermission($oldRolePermission->RolePermissionId);
+            if ($success) {
+                $oldRolePermissions = RolePermissionsApiController::GetRolePermissions($role->RoleId);
+                if ($oldRolePermissions->count() > 0) {
+                    foreach ($oldRolePermissions as $oldRolePermission) {
+                        RolePermissionsApiController::DeleteRolesPermission($oldRolePermission->RolePermissionId);
+                    }
                 }
-            }
 
-            foreach ($permissionIds as $permissionId) {
-                $rolePermissionModel = new RolePermission();
-                $rolePermissionModel->PermissionId = $permissionId;
-                $rolePermissionModel->RoleId = $role->RoleId;
-                $success = $success && RolePermissionsApiController::InsertRolesPermission($rolePermissionModel);
-            }
-            if (!$success) {
-                self::DeleteRole($role->RoleId);
+                foreach ($permissionIds as $permissionId) {
+                    $rolePermissionModel = new RolePermission();
+                    $rolePermissionModel->PermissionId = $permissionId;
+                    $rolePermissionModel->RoleId = $role->RoleId;
+                    $success = $success && RolePermissionsApiController::InsertRolesPermission($rolePermissionModel);
+                }
+                if (!$success) {
+                    self::DeleteRole($role->RoleId);
+                }
             }
         }
 
