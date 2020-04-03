@@ -72,7 +72,6 @@ class User extends MVCModel
             "LastFiveThreads" => $mapper->hasManyThrough($entity, "Data\Models\MessageThread", "Data\Models\UserThread", "ThreadId", "UserId")->order(["UpdatedAt" => "DESC"])->limit(5),
             "Messages" => $mapper->hasManyThrough($entity, "Data\Models\Message", "Data\Models\UserMessage", "MessageId", "UserId")->order(["CreatedAt" => "DESC"]),
             "Panels" => $mapper->hasMany($entity, 'Data\Models\Panel', 'UserId'),
-            'Participants' => $mapper->hasManyThrough($entity, Participant::class, UserParticipant::class, 'ParticipantId', 'UserId'),
         ];
     }
 
@@ -115,25 +114,5 @@ class User extends MVCModel
             }
             return $emailBannerUrl;
         }
-    }
-
-    /**
-     * @return bool
-     */
-    public function isParticipant(): bool
-    {
-        return $this->getParticipant() !== null;
-    }
-
-    /**
-     * @return Participant|null
-     */
-    public function getParticipant(): ?Participant
-    {
-        $participants = $this->Participants->entities();
-        if (count($participants) > 0) {
-            return $participants[0]->entity();
-        }
-        return null;
     }
 }
