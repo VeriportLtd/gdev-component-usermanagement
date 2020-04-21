@@ -160,7 +160,7 @@ class User extends MVCModel
     public function canViewCustomer(Customer $customer): bool
     {
         $businessIds = $this->Businesses->toArray('BusinessId');
-        return in_array($customer->CustomerId, $businessIds, true);
+        return in_array($customer->BusinessId, $businessIds, true);
     }
 
 
