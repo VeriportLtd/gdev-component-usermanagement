@@ -20,6 +20,7 @@ use ViewModel\Mail\UserRegisterMailViewModel;
 use Business\DTO\SenderDTO;
 use Business\DTO\RecipientDTO;
 use Business\Utilities\Config\Config;
+use Security;
 
 class UsersApiController
 {
@@ -192,10 +193,11 @@ class UsersApiController
         $organizationId = empty($organizationId) ? null : (int)$organizationId;
         $statusMessage = empty($statusMessage) ? null : $statusMessage;
 
+        $loggedUserId = Security::GetCurrentUserId();
         // checking organization
         if ($organizationId !== null) {
-            if (!\Security::IsSuperAdmin()) {
-                $currentUser = UsersApiController::GetUserById(\Security::GetCurrentUser()->UserId);
+            if (!Security::IsSuperAdmin()) {
+                $currentUser = UsersApiController::GetUserById($loggedUserId);
                 $organizationId = $currentUser->OrganizationId;
             }
         }
@@ -203,29 +205,31 @@ class UsersApiController
         $status = UsersApiController::InsertUser($user) > 0;
 
         if ($status) {
-            $oldRoles = UserRolesApiController::GetUserRoles($user->UserId);
-            if (!empty($userRoles)) {
-                $oldRoleTypes = [];
-                if ($oldRoles->count() > 0) {
-                    $oldRoleTypes = $oldRoles->toArray('RoleId');
-                    $rolesToBeDeleted = array_diff($oldRoleTypes, $userRoles);
-                    if (!empty($rolesToBeDeleted)) {
-                        $status = $status && UserRolesApiController::DeleteRoles(['UserId' => $user->UserId, 'RoleId' => array_values($rolesToBeDeleted)]) >= 0;
+            if ($user->UserId !== $loggedUserId) {
+                $oldRoles = UserRolesApiController::GetUserRoles($user->UserId);
+                if (!empty($userRoles)) {
+                    $oldRoleTypes = [];
+                    if ($oldRoles->count() > 0) {
+                        $oldRoleTypes = $oldRoles->toArray('RoleId');
+                        $rolesToBeDeleted = array_diff($oldRoleTypes, $userRoles);
+                        if (!empty($rolesToBeDeleted)) {
+                            $status = $status && UserRolesApiController::DeleteRoles(['UserId' => $user->UserId, 'RoleId' => array_values($rolesToBeDeleted)]) >= 0;
+                        }
                     }
-                }
 
-                $roles = RolesApiController::GetRoles()->toArray('RoleId');
-                foreach ($userRoles as $userRoleId) {
-                    $userRoleId = (int)$userRoleId;
-                    if (in_array($userRoleId, $roles, true) && !in_array($userRoleId, $oldRoleTypes, true)) {
-                        $userRoleModel = new UserRole();
-                        $userRoleModel->UserId = $user->UserId;
-                        $userRoleModel->RoleId = $userRoleId;
-                        $status = UserRolesApiController::InsertUserRole($userRoleModel) && $status;
+                    $roles = RolesApiController::GetRoles()->toArray('RoleId');
+                    foreach ($userRoles as $userRoleId) {
+                        $userRoleId = (int)$userRoleId;
+                        if (in_array($userRoleId, $roles, true) && !in_array($userRoleId, $oldRoleTypes, true)) {
+                            $userRoleModel = new UserRole();
+                            $userRoleModel->UserId = $user->UserId;
+                            $userRoleModel->RoleId = $userRoleId;
+                            $status = UserRolesApiController::InsertUserRole($userRoleModel) && $status;
+                        }
                     }
+                } elseif ($oldRoles->count() > 0) {
+                    $status = $status && UserRolesApiController::DeleteRoles(['UserId' => $user->UserId]) >= 0;
                 }
-            } elseif ($oldRoles->count() > 0) {
-                $status = $status && UserRolesApiController::DeleteRoles(['UserId' => $user->UserId]) >= 0;
             }
             if (!empty($userStatusId)) {
                 $currentUserStatus = UserStatusesApiController::GetCurrentUserStatus($user->UserId);
