@@ -4,8 +4,10 @@ namespace Gdev\UserManagement\Repositories;
 
 use Business\DTO\GroupableColumnDTO;
 use Business\DTO\RequiredConditionDTO;
+use Business\Helpers\DateHelper;
 use Data\Repositories\BaseRepository;
 use DataTablesHelper;
+use DateTime;
 
 /**
  * Class UsersRepository
@@ -20,7 +22,7 @@ class UsersRepository extends BaseRepository
     {
         $db = static::getInstance();
 
-        $roles = RolesRepository::getInstance()->all()->where(["Weight" >= $weight]);
+        $roles = RolesRepository::getInstance()->all()->where(["Weight" => $weight]);
         if (empty($roles)) {
             return null;
         }
@@ -41,7 +43,7 @@ class UsersRepository extends BaseRepository
         if (empty($data[0])) {
             return null;
         }
-        return new \LastLoggedUserDTO($data[0]->FirstName, $data[0]->LastName, $data[0]->Image, $data[0]->StartDate);
+        return new \LastLoggedUserDTO($data[0]->FirstName, $data[0]->LastName, $data[0]->Image, DateHelper::getFormattedLocalLastDate(new DateTime($data[0]->StartDate)));
 
     }
 
