@@ -43,7 +43,7 @@ class UsersRepository extends BaseRepository
         if (empty($data[0])) {
             return null;
         }
-        return new \LastLoggedUserDTO($data[0]->FirstName, $data[0]->LastName, $data[0]->Image, DateHelper::getFormattedLocalLastDate(new DateTime($data[0]->StartDate)));
+        return new \LastLoggedUserDTO($data[0]->FirstName, $data[0]->LastName, $data[0]->Image, DateHelper::getDashboardCreatedAtFormattedDate(new DateTime($data[0]->StartDate)));
 
     }
 
