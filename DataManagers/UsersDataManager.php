@@ -151,10 +151,10 @@ class UsersDataManager
      * @param int $liveChatDataPermission
      * @return int[]
      */
-    public static function GetUsersWithAbilityToViewLiveChat($businessIds, $allLiveChatDataPermission, $liveChatDataPermission)
+    public static function GetUsersWithAbilityToViewLiveChat($businessIds, $allLiveChatDataPermission, $liveChatDataPermission): array
     {
         $userIds = [];
-        $businessIds = implode(",", $businessIds);
+        $businessIds = implode(',', $businessIds);
         $query = "SELECT u.UserId from users u INNER JOIN user_roles ur ON u.UserId=ur.UserId INNER JOIN role_permissions rp ON ur.RoleId = rp.RoleId AND rp.PermissionId=$liveChatDataPermission INNER JOIN user_businesses ub ON u.UserId=ub.UserId  AND ub.BusinessId IN ($businessIds)";
         $allowedLiveChatUsers = UsersRepository::getInstance()->query($query);
         $query = "SELECT u.UserId from users u INNER JOIN user_roles ur ON u.UserId=ur.UserId INNER JOIN role_permissions rp ON ur.RoleId = rp.RoleId AND rp.PermissionId=$allLiveChatDataPermission";
