@@ -62,21 +62,8 @@ class UsersApiController
      *
      * @return int[]
      */
-    public static function GetUserIdsWithAbilityToViewLiveChat($businesses)
+    public static function GetUsersWithAbilityToViewLiveChat($businesses)
     {
-        $businessIds = [];
-        foreach ($businesses as $business) {
-            $businessIds[] = $business->BusinessId;
-        }
-        $users =  UsersDataManager::GetUsersWithAbilityToViewLiveChat($businessIds, PermissionsEnum::ViewAllLiveChatData, PermissionsEnum::ViewLiveChatData);
-        $userIds = [];
-        foreach ($users as $user) {
-            $userIds[] = $user->UserId;
-        }
-        return $userIds;
-    }
-
-    public static function GetUsersWithAbilityToViewLiveChat(array $businesses): array {
         $businessIds = [];
         foreach ($businesses as $business) {
             $businessIds[] = $business->BusinessId;

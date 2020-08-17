@@ -2,8 +2,14 @@
 
 namespace Gdev\UserManagement\DataManagers;
 
+use Data\Models\UserBusiness;
 use Data\Repositories\UserBusinessesRepository;
 use Gdev\UserManagement\Models\User;
+use Gdev\UserManagement\Models\UserAccessToken;
+use Gdev\UserManagement\Repositories\PasswordResetLinksRepository;
+use Gdev\UserManagement\Repositories\RolePermissionsRepository;
+use Gdev\UserManagement\Repositories\RolesRepository;
+use Gdev\UserManagement\Repositories\UserAccessTokensRepository;
 use Gdev\UserManagement\Repositories\UserRolesRepository;
 use Gdev\UserManagement\Repositories\UsersRepository;
 use Gdev\UserManagement\Repositories\UserStatusesRepository;
@@ -11,7 +17,6 @@ use Gdev\UserManagement\Repositories\UserStatusesRepository;
 class UsersDataManager
 {
 
-//Static Methods
     public static function GetFilteredList($start, $length, $columns, $order, $search, $organizationId, $roleWeight)
     {
         return UsersRepository::GetFilteredList($start, $length, $columns, $order, $search, $organizationId, $roleWeight);
@@ -117,7 +122,6 @@ class UsersDataManager
 
     /**
      * @param $roleIds
-     *
      * @return array|User[]
      */
     public static function GetUsersForSelectedRoles($roleIds = [])
@@ -145,26 +149,22 @@ class UsersDataManager
      * @param int[] $businessIds
      * @param int $allLiveChatDataPermission
      * @param int $liveChatDataPermission
-     *
      * @return int[]
      */
     public static function GetUsersWithAbilityToViewLiveChat($businessIds, $allLiveChatDataPermission, $liveChatDataPermission): array
     {
-        $users = [];
+        $userIds = [];
         $businessIds = implode(',', $businessIds);
-        $query = "SELECT u.* from users u INNER JOIN user_roles ur ON u.UserId=ur.UserId INNER JOIN role_permissions rp ON ur.RoleId = rp.RoleId AND rp.PermissionId=$liveChatDataPermission INNER JOIN user_businesses ub ON u.UserId=ub.UserId  AND ub.BusinessId IN ($businessIds)";
+        $query = "SELECT u.UserId from users u INNER JOIN user_roles ur ON u.UserId=ur.UserId INNER JOIN role_permissions rp ON ur.RoleId = rp.RoleId AND rp.PermissionId=$liveChatDataPermission INNER JOIN user_businesses ub ON u.UserId=ub.UserId  AND ub.BusinessId IN ($businessIds)";
         $allowedLiveChatUsers = UsersRepository::getInstance()->query($query);
-        $query = "SELECT u.* from users u INNER JOIN user_roles ur ON u.UserId=ur.UserId INNER JOIN role_permissions rp ON ur.RoleId = rp.RoleId AND rp.PermissionId=$allLiveChatDataPermission";
+        $query = "SELECT u.UserId from users u INNER JOIN user_roles ur ON u.UserId=ur.UserId INNER JOIN role_permissions rp ON ur.RoleId = rp.RoleId AND rp.PermissionId=$allLiveChatDataPermission";
         $allowedAllLiveChatUsers = UsersRepository::getInstance()->query($query);
         foreach ($allowedLiveChatUsers as $allowedLiveChatUser) {
-            $users[$allowedLiveChatUser->UserId] = $allowedLiveChatUser;
+            $userIds[] = $allowedLiveChatUser->UserId;
         }
         foreach ($allowedAllLiveChatUsers as $allowedAllLiveChatUser) {
-            if (!array_key_exists($allowedAllLiveChatUser->UserId, $users)) {
-                $users[] = $allowedAllLiveChatUser;
-            }
+            $userIds[] = $allowedAllLiveChatUser->UserId;
         }
-        return array_values($users);
+        return array_unique($userIds);
     }
-//Static Methods End
 }
