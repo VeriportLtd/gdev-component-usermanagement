@@ -8,8 +8,13 @@
 
 namespace Gdev\UserManagement\Models;
 
+use Business\Helpers\FileHelper;
+use Business\Middleware\FileSystems\DTO\ImageResizeDTO;
+use Business\Middleware\FileSystems\Traits\FileUploadTrait;
+use Business\Middleware\FileSystems\Traits\ImageUploadTrait;
 use Business\Utilities\Config\Config;
 use DateTime;
+use Gdev\UserManagement\Traits\UserTrait;
 use Spot\Entity;
 use Spot\EntityInterface;
 use Spot\MapperInterface;
@@ -30,7 +35,12 @@ use Spot\MapperInterface;
  */
 class UserDetails extends Entity
 {
+    use FileUploadTrait, ImageUploadTrait, UserTrait;
 
+    protected const PICTURE_PATH = 'Media/Users';
+    protected const PICTURE_DEFAULT_PATH = 'Content';
+    protected const PICTURE_DEFAULT_NAME = 'user-default.png';
+    protected const PICTURE_NAME_PREFIX = 'user';
     // Database Mapping
     protected static $table = "user_details";
 
@@ -61,19 +71,61 @@ class UserDetails extends Entity
         return sprintf("%s %s", $this->FirstName, $this->LastName);
     }
 
-    public function PictureSource($thumb = null)
-    {
-        $config = Config::GetInstance();
 
-        if (!empty($this->Picture)) {
-            return sprintf("%sMedia/Users/%s%s", $config->cdn->url, empty($this->Picture) ? "" : $thumb . "/", $this->Picture);
+    /**
+     * @param string|null $fileSource
+     * @param string $logo
+     * @param string|null $thumbnail
+     * @param bool $overwrite
+     * @param ImageResizeDTO|null $imageResizeDTO
+     *
+     * @return bool|null
+     */
+    public function savePicture(string $fileSource, string $logo, string $thumbnail = null, bool $overwrite = false, ImageResizeDTO $imageResizeDTO = null): ?bool
+    {
+        $newSourceFile = FileHelper::CreateTemporaryFilePath();
+        $result = $imageResizeDTO !== null ? $this->resizeImage($fileSource, $imageResizeDTO, $newSourceFile) : $this->processImage($fileSource, $newSourceFile);
+        $fileContent = @file_get_contents($newSourceFile);
+        if ($result && $fileContent !== false) {
+            if ($overwrite) {
+                $pictureName = $this->Picture ?? $this->generateFileName($logo, "{$this->FirstName}-{$this->LastName}", static::PICTURE_NAME_PREFIX);
+            } else {
+                $pictureName = $this->generateFileName($logo, "{$this->FirstName}-{$this->LastName}", static::PICTURE_NAME_PREFIX);
+            }
+            $result = $this->saveFile($fileContent, $pictureName, static::PICTURE_PATH, $thumbnail);
+            if ($result === true) {
+                $this->Picture = $pictureName;
+            }
         }
-        return sprintf("%s/Content/user-default.png", $config->cdn->url);
+        return $result;
     }
 
-    public function PicturePath($thumb = null)
+    /**
+     * @param array $thumbnails
+     *
+     * @param bool $deleteAll
+     *
+     * @return bool|null
+     */
+    public function deletePicture(array $thumbnails = [], bool $deleteAll = true): ?bool
     {
-        return sprintf("%sMedia/Users/%s%s", CDN_PATH, empty($this->Picture) ? "" : $thumb . "/", $this->Picture);
+        if (empty($this->Picture)) {
+            return null;
+        }
+        $result = true;
+        if ($thumbnails || $deleteAll) {
+            foreach ($thumbnails as $thumbnail) {
+                $result = $result && $this->deleteFile($this->Picture, static::PICTURE_PATH, $thumbnail) !== false;
+            }
+        }
+        if ($deleteAll || !$thumbnails) {
+            $result = $result && $this->deleteFile($this->Picture, static::PICTURE_PATH) !== false;
+        }
+        if ($result) {
+            $this->Picture = null;
+        }
+        return $result;
     }
+
 
 }
