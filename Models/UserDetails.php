@@ -37,9 +37,9 @@ class UserDetails extends Entity
 {
     use FileUploadTrait, ImageUploadTrait, UserTrait;
 
-    protected const PICTURE_PATH = 'Media/Users';
-    protected const PICTURE_DEFAULT_PATH = 'Content';
-    protected const PICTURE_DEFAULT_NAME = 'user-default.png';
+    public const PICTURE_PATH = 'Media/Users';
+    public const PICTURE_DEFAULT_PATH = 'Content';
+    public const PICTURE_DEFAULT_NAME = 'user-default.png';
     protected const PICTURE_NAME_PREFIX = 'user';
     // Database Mapping
     protected static $table = "user_details";
