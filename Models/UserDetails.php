@@ -32,12 +32,14 @@ use Spot\MapperInterface;
  * @property DateTime DateOfBirth
  * @property string Picture
  * @property DateTime LastLogin
+ *
+ * @method string getPictureUrl(string $thumbnail = null) : ?string Implemented in UserTrait
  */
 class UserDetails extends Entity
 {
     use FileUploadTrait, ImageUploadTrait, UserTrait;
 
-    public const PICTURE_PATH = 'Media/Users';
+    public const PICTURE_PATH = 'Media/Users/Picture';
     public const PICTURE_DEFAULT_PATH = 'Content';
     public const PICTURE_DEFAULT_NAME = 'user-default.png';
     protected const PICTURE_NAME_PREFIX = 'user';
@@ -127,5 +129,15 @@ class UserDetails extends Entity
         return $result;
     }
 
+//used for migration to new directory
+    public function getPicturePath(bool $includeDefaultPath, string $thumbnail = null)
+    {
+        $picturePath = $this->getFilePath($this->Picture, static::PICTURE_PATH, $thumbnail);
+        if ($picturePath !== null && is_readable($picturePath)) {
+            return $picturePath;
+        }
+        return $this->getFilePath(static::PICTURE_DEFAULT_NAME, static::PICTURE_DEFAULT_PATH);
+
+    }
 
 }
