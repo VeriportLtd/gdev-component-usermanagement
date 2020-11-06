@@ -133,7 +133,7 @@ class UserDetails extends Entity
     public function getPicturePath(bool $includeDefaultPath, string $thumbnail = null)
     {
         $picturePath = $this->getFilePath($this->Picture, static::PICTURE_PATH, $thumbnail);
-        if ($picturePath !== null && is_readable($picturePath)) {
+        if (($picturePath !== null && is_readable($picturePath)) || !$includeDefaultPath) {
             return $picturePath;
         }
         return $this->getFilePath(static::PICTURE_DEFAULT_NAME, static::PICTURE_DEFAULT_PATH);
