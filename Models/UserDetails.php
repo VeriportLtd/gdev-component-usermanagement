@@ -14,7 +14,6 @@ use Business\Middleware\FileSystems\Traits\FileUploadTrait;
 use Business\Middleware\FileSystems\Traits\ImageUploadTrait;
 use Business\Utilities\Config\Config;
 use DateTime;
-use Gdev\UserManagement\Traits\UserTrait;
 use Spot\Entity;
 use Spot\EntityInterface;
 use Spot\MapperInterface;
@@ -33,11 +32,10 @@ use Spot\MapperInterface;
  * @property string Picture
  * @property DateTime LastLogin
  *
- * @method string getPictureUrl(string $thumbnail = null) : ?string Implemented in UserTrait
  */
 class UserDetails extends Entity
 {
-    use FileUploadTrait, ImageUploadTrait, UserTrait;
+    use FileUploadTrait, ImageUploadTrait;
 
     public const PICTURE_PATH = 'Media/Users/Picture';
     public const PICTURE_DEFAULT_PATH = 'Content';
@@ -71,6 +69,18 @@ class UserDetails extends Entity
     public function DisplayFullName()
     {
         return sprintf("%s %s", $this->FirstName, $this->LastName);
+    }
+
+
+    /**
+     * @param string|null $thumbnail
+     *
+     * @return string|null
+     */
+    public function getPictureUrl(string $thumbnail = null): ?string
+    {
+        $fileUrl = $this->getFileUrl($this->Picture, static::PICTURE_PATH, $thumbnail);
+        return $fileUrl ?? $this->getFileUrl(static::PICTURE_DEFAULT_NAME, static::PICTURE_DEFAULT_PATH);
     }
 
 
