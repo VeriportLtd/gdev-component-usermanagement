@@ -97,14 +97,13 @@ class UserDetails extends Entity
     {
         $newSourceFile = FileHelper::CreateTemporaryFilePath();
         $result = $imageResizeDTO !== null ? $this->resizeImage($fileSource, $imageResizeDTO, $newSourceFile) : $this->processImage($fileSource, $newSourceFile);
-        $fileContent = @file_get_contents($newSourceFile);
-        if ($result && $fileContent !== false) {
+        if ($result ) {
             if ($overwrite) {
                 $pictureName = $this->Picture ?? $this->generateFileName($logo, "{$this->FirstName}-{$this->LastName}", static::PICTURE_NAME_PREFIX);
             } else {
                 $pictureName = $this->generateFileName($logo, "{$this->FirstName}-{$this->LastName}", static::PICTURE_NAME_PREFIX);
             }
-            $result = $this->saveFile($fileContent, $pictureName, static::PICTURE_PATH, $thumbnail);
+            $result = $this->saveFile($newSourceFile, $pictureName, static::PICTURE_PATH, $thumbnail);
             if ($result === true) {
                 $this->Picture = $pictureName;
             }
