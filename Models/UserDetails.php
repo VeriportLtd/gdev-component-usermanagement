@@ -115,22 +115,22 @@ class UserDetails extends Entity
     /**
      * @param array $thumbnails
      *
-     * @param bool $deleteAll
+     * @param bool $deleteBasePicture
      *
      * @return bool|null
      */
-    public function deletePicture(array $thumbnails = [], bool $deleteAll = true): ?bool
+    public function deletePicture(array $thumbnails = [], bool $deleteBasePicture = true): ?bool
     {
         if (empty($this->Picture)) {
             return null;
         }
         $result = true;
-        if ($thumbnails || $deleteAll) {
+        if ($thumbnails) {
             foreach ($thumbnails as $thumbnail) {
                 $result = $result && $this->deleteFile($this->Picture, static::PICTURE_PATH, $thumbnail) !== false;
             }
         }
-        if ($deleteAll || !$thumbnails) {
+        if ($deleteBasePicture) {
             $result = $result && $this->deleteFile($this->Picture, static::PICTURE_PATH) !== false;
         }
         if ($result) {
