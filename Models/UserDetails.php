@@ -8,9 +8,11 @@
 
 namespace Gdev\UserManagement\Models;
 
+use Business\Enums\ThumbnailSizeEnum;
 use Business\Helpers\FileHelper;
 use Business\Middleware\FileSystems\DTO\ImageResizeDTO;
 use Business\Middleware\FileSystems\Traits\FileUploadTrait;
+use Business\Middleware\FileSystems\Traits\ImageResizeTrait;
 use Business\Middleware\FileSystems\Traits\ImageUploadTrait;
 use Business\Utilities\Config\Config;
 use DateTime;
@@ -35,12 +37,14 @@ use Spot\MapperInterface;
  */
 class UserDetails extends Entity
 {
-    use FileUploadTrait, ImageUploadTrait;
+    use FileUploadTrait, ImageUploadTrait, ImageResizeTrait;
 
+    //Picture
     public const PICTURE_PATH = 'Media/Users/Picture';
     public const PICTURE_DEFAULT_PATH = 'Content';
     public const PICTURE_DEFAULT_NAME = 'user-default.png';
     protected const PICTURE_NAME_PREFIX = 'user';
+
     // Database Mapping
     protected static $table = "user_details";
 
@@ -93,23 +97,38 @@ class UserDetails extends Entity
      *
      * @return bool|null
      */
-    public function savePicture(string $fileSource, string $logo, string $thumbnail = null, bool $overwrite = false, ImageResizeDTO $imageResizeDTO = null): ?bool
+    public function savePicture(string $fileSource, string $logo, bool $overwrite = false): ?bool
     {
+        $thumbnailsSavedArray = [];
         $newSourceFile = FileHelper::CreateTemporaryFilePath();
-        $result = $imageResizeDTO !== null ? $this->resizeImage($fileSource, $imageResizeDTO, $newSourceFile) : $this->processImage($fileSource, $newSourceFile);
-        if ($result ) {
-            if ($overwrite) {
-                $pictureName = $this->Picture ?? $this->generateFileName($logo, "{$this->FirstName}-{$this->LastName}", static::PICTURE_NAME_PREFIX);
-            } else {
-                $pictureName = $this->generateFileName($logo, "{$this->FirstName}-{$this->LastName}", static::PICTURE_NAME_PREFIX);
+        $result = $this->processImage($fileSource, $newSourceFile);
+        if ($result) {
+            $pictureName = $this->generateFileName($logo, "{$this->FirstName}-{$this->LastName}", static::PICTURE_NAME_PREFIX);
+            $defaultPictureSizeSaved = $this->saveFile($newSourceFile, $pictureName, static::PICTURE_PATH);
+            $imageResizeDTOs = $this->getImageResizeDTOs($this->getThumbnails());
+            foreach ($imageResizeDTOs as $thumbnail => $imageResizeDTO) {
+                $newSourceFile = FileHelper::CreateTemporaryFilePath();
+                $pictureResized = $this->resizeImage($fileSource, $imageResizeDTO, $newSourceFile);
+                if ($pictureResized) {
+                    $pictureSaved = $this->saveFile($newSourceFile, $pictureName, static::PICTURE_PATH, $thumbnail);
+                    if ($pictureSaved === true) {
+                        $thumbnailsSavedArray[] = $thumbnail;
+                    }
+                }
             }
-            $result = $this->saveFile($newSourceFile, $pictureName, static::PICTURE_PATH, $thumbnail);
-            if ($result === true) {
+            $thumbnailsSaved = count($thumbnailsSavedArray) === count($imageResizeDTOs);
+            $result = $defaultPictureSizeSaved && $thumbnailsSaved;
+
+            if ($overwrite && $result) {
+                $result = $this->deletePicture();
+            }
+            if ($result !== false) {
                 $this->Picture = $pictureName;
             }
         }
         return $result;
     }
+
 
     /**
      * @param array $thumbnails
@@ -118,21 +137,19 @@ class UserDetails extends Entity
      *
      * @return bool|null
      */
-    public function deletePicture(array $thumbnails = [], bool $deleteBasePicture = true): ?bool
+    public function deletePicture(): ?bool
     {
         if (empty($this->Picture)) {
             return null;
         }
         $result = true;
-        if ($thumbnails) {
-            foreach ($thumbnails as $thumbnail) {
-                $result = $result && $this->deleteFile($this->Picture, static::PICTURE_PATH, $thumbnail) !== false;
-            }
+        foreach ($this->getThumbnails() as $thumbnail) {
+            $result = $result && $this->deleteFile($this->Picture, static::PICTURE_PATH, $thumbnail) !== false;
         }
-        if ($deleteBasePicture) {
-            $result = $result && $this->deleteFile($this->Picture, static::PICTURE_PATH) !== false;
-        }
-        if ($result) {
+
+        $result = $result && $this->deleteFile($this->Picture, static::PICTURE_PATH) !== false;
+
+        if ($result !== false) {
             $this->Picture = null;
         }
         return $result;
@@ -141,6 +158,7 @@ class UserDetails extends Entity
 //used for migration to new directory
     public function getPicturePath(bool $includeDefaultPath, string $thumbnail = null)
     {
+        //TODO remove after deploy
         $picturePath = $this->getFilePath($this->Picture, static::PICTURE_PATH, $thumbnail);
         if (($picturePath !== null && is_readable($picturePath)) || !$includeDefaultPath) {
             return $picturePath;
