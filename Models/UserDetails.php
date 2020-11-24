@@ -43,7 +43,8 @@ class UserDetails extends Entity
     public const PICTURE_DEFAULT_PATH = 'Content';
     public const PICTURE_DEFAULT_NAME = 'user-default.png';
     protected const PICTURE_NAME_PREFIX = 'user';
-    protected const PICTURE_THUMBNAILS = [ThumbnailSizeEnum::SMALL, ThumbnailSizeEnum::MEDIUM];
+    public const PICTURE_THUMBNAILS = [ThumbnailSizeEnum::SMALL, ThumbnailSizeEnum::MEDIUM];
+    public const OLD_PICTURE_PATH = 'Media/Users';
 
     // Database Mapping
     protected static $table = "user_details";
