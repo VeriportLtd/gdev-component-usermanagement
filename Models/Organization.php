@@ -19,6 +19,8 @@ use Data\Models\MVCModel;
  * @property string Phone
  * @property string Website
  * @property string Logo
+ * @property boolean AffiliateFlag
+ * @property boolean CustomerFlag
  */
 class Organization extends MVCModel
 {
@@ -35,7 +37,9 @@ class Organization extends MVCModel
             "Address" => ['type' => 'string'],
             "Phone" => ['type' => 'string'],
             "Website" => ['type' => 'string'],
-            "Logo" => ['type' => 'string']
+            "Logo" => ['type' => 'string'],
+			"AffiliateFlag" => ['type' => 'boolean', 'required' => true],
+			"CustomerFlag" => ['type' => 'boolean', 'required' => true]			
         ];
 
         return array_merge($fields, parent::fields());
