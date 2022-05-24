@@ -1,0 +1,145 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "2dddb8c6d2e1e8e85f67c6b4eeceffc2",
+    "packages": [
+        {
+            "name": "backslashsoft/component-resolver",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/backslashsoft/component-resolver.git",
+                "reference": "d17d6fbbfce63da2090189dbbbd4037cdca1a9da"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Backslash\\Resolver\\": "/"
+                }
+            },
+            "time": "2018-09-17T11:30:44+00:00"
+        },
+        {
+            "name": "ion/autoloader",
+            "version": "v0.7.7+release/main",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/ion-digital-projects/autoloader.git",
+                "reference": "027e103422a4e50b5c5d8f61b9573bc93447846c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/ion-digital-projects/autoloader/get/027e103422a4e50b5c5d8f61b9573bc93447846c.zip",
+                "reference": "027e103422a4e50b5c5d8f61b9573bc93447846c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "ion/dev": "^0.7",
+                "php": "^7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "autoload.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Justus Meyer",
+                    "email": "justus@justusmeyer.com",
+                    "homepage": "https://justusmeyer.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "A small autoloading library, compatible with Composer, that allows you to customise your autoloading functionality.",
+            "homepage": "https://bitbucket.org/ion-digital-projects/autoloader",
+            "keywords": [
+                "autoload",
+                "autoload helper",
+                "boot strap",
+                "bootstrap",
+                "php"
+            ],
+            "support": {
+                "issues": "https://bitbucket.org/ion-digital-projects/autoloader/issues",
+                "source": "https://bitbucket.org/ion-digital-projects/autoloader/src/027e103422a4e50b5c5d8f61b9573bc93447846c/?at=v0.7.7+release/main"
+            },
+            "time": "2021-11-02T17:45:24+00:00"
+        },
+        {
+            "name": "ion/php-helper",
+            "version": "v0.10.10+release/main",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/ion-digital-projects/php-helper.git",
+                "reference": "72832520fb975ecf1cec581ca286960c6618353e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/ion-digital-projects/php-helper/get/72832520fb975ecf1cec581ca286960c6618353e.zip",
+                "reference": "72832520fb975ecf1cec581ca286960c6618353e",
+                "shasum": ""
+            },
+            "require": {
+                "ion/autoloader": "^0.7",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "ion/dev": "^0.7"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "autoload.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Justus Meyer",
+                    "email": "justus@justusmeyer.com",
+                    "homepage": "https://justusmeyer.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "A library of common functions and classes useful when developing in PHP.",
+            "homepage": "https://bitbucket.org/ion-digital-projects/php-helper",
+            "keywords": [
+                "PHPHelper",
+                "php",
+                "php helper",
+                "php-helper"
+            ],
+            "support": {
+                "issues": "https://bitbucket.org/justusmeyer/php-helper/issues",
+                "source": "https://bitbucket.org/ion-digital-projects/php-helper/src/72832520fb975ecf1cec581ca286960c6618353e/?at=v0.10.10+release/main"
+            },
+            "time": "2022-05-23T21:41:10+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "backslashsoft/component-resolver": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}

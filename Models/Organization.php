@@ -8,6 +8,7 @@ use Spot\Entity;
 use Spot\EntityInterface;
 use Spot\MapperInterface;
 use Data\Models\MVCModel;
+use \ion\PhpHelper as PHP;
 
 /**
  * Class Organization
@@ -38,8 +39,8 @@ class Organization extends MVCModel
             "Phone" => ['type' => 'string'],
             "Website" => ['type' => 'string'],
             "Logo" => ['type' => 'string'],
-			"AffiliateFlag" => ['type' => 'boolean', 'required' => true],
-			"CustomerFlag" => ['type' => 'boolean', 'required' => true]			
+            "AffiliateFlag" => ['type' => 'boolean', 'required' => true],
+            "CustomerFlag" => ['type' => 'boolean', 'required' => true]			
         ];
 
         return array_merge($fields, parent::fields());
@@ -52,16 +53,42 @@ class Organization extends MVCModel
         ];
     }
 
+//    public function PictureSource($thumb = null) {
+//        $config = Config::GetInstance();
+//
+//        if (!empty($this->Logo)) {
+//            return sprintf("%sMedia/Organizations/%s%s", $config->cdn->url, empty($this->Logo) ? "" : $thumb . "/", $this->Logo);
+//        }
+//        return sprintf("%s/Content/organization-default.png", $config->cdn->url);
+//    }
+//
+//    public function PicturePath($thumb = null) {
+//        return sprintf("%sMedia/Organizations/%s%s", CDN_PATH, empty($this->Logo) ? "" : $thumb . "/", $this->Logo);
+//    }
+    
     public function PictureSource($thumb = null) {
+        
         $config = Config::GetInstance();
 
+        $orgDashed = PHP::strToDashedCase($this->Name);
+        
         if (!empty($this->Logo)) {
-            return sprintf("%sMedia/Organizations/%s%s", $config->cdn->url, empty($this->Logo) ? "" : $thumb . "/", $this->Logo);
+            
+            return sprintf("%suploads/%s/%s", $config->accounts->url, $orgDashed, $this->Logo);
         }
-        return sprintf("%s/Content/organization-default.png", $config->cdn->url);
+        return sprintf("%suploads/%s/organization-logo.png", $config->accounts->url, $orgDashed);
     }
 
     public function PicturePath($thumb = null) {
-        return sprintf("%sMedia/Organizations/%s%s", CDN_PATH, empty($this->Logo) ? "" : $thumb . "/", $this->Logo);
+        
+        return null;
+        //return "X";
+        
+//        return sprintf("%sMedia/Organizations/%s%s", CDN_PATH, empty($this->Logo) ? "" : $thumb . "/", $this->Logo);
+    }
+    
+    public function PictureUrl($thumb = null) {
+        
+        return Config::GetInstance()->accounts->url;
     }
 }

@@ -12,6 +12,7 @@
     }
   },
   "require": {
+        "ion/php-helper": "^0.10",
     "backslashsoft/component-resolver": "dev-master"
   },
   "name": "gdev/user-management"
